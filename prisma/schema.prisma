@@ -1,0 +1,429 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CorrectAdmin {
+  id       String @id @default(uuid())
+  nome     String
+  usuario  String @unique
+  email    String @unique
+  password String
+  // Cartoes             Cartoes[]
+  // CartoesEmpregadores CartoesEmpregadores[]
+  // CartoesComercio     CartoesComercio[]
+  // CnaeEmpresa         CnaeEmpresa[]
+  // DadosUsuarioApp     DadosUsuarioApp[]
+  // DadosEmpresas       DadosEmpresas[]
+
+  @@map("correct_admin")
+}
+
+// model MovimentacoeslucroCorrect {
+//   id                             String          @id @default(uuid())
+//   valorGerado                    Float
+//   movimentacoesEmpresasUsuarioId String
+//   created_at                     DateTime?       @default(now())
+//   updated_at                     DateTime?       @updatedAt
+//   status                         StatusPagamento @default(pendente)
+
+//   @@map("movimentacoes_lucro_correct")
+// }
+
+// enum TipoDaEmpresa {
+//   empregador
+//   comercio
+//   autonomo_comercio
+//   empregador_comercio
+// }
+
+// model TipoEmpresa {
+//   id                    String        @id @default(uuid())
+//   tipo                  TipoDaEmpresa
+//   nomeFantasia          String
+//   cnpj                  String
+//   autenticacaoEmpresaId String?
+
+//   FilialEmpresa         FilialEmpresa[]
+//   AutenticacaoEmpresa   AutenticacaoEmpresa?    @relation(fields: [autenticacaoEmpresaId], references: [id])
+//   ContasCorrectEmpresas ContasCorrectEmpresas[]
+//   DadosUsuarioApp       DadosUsuarioApp[]
+//   CartoesEmpregadores   CartoesEmpregadores[]
+//   CartoesComercio       CartoesComercio[]
+
+//   @@map("tipo_empresa")
+// }
+
+// model DadosEmpresas {
+//   id                    String  @id @default(uuid())
+//   razao_social          String
+//   cnpj                  String
+//   cnae_id               String
+//   classificacao         String
+//   total_colaboradores   Int
+//   status                Boolean @default(false)
+//   telefone_1            String
+//   telefone_2            String?
+//   autenticacaoEmpresaId String
+//   correctAdminId        String
+
+//   CorrectAdmin        CorrectAdmin        @relation(fields: [correctAdminId], references: [id])
+//   AutenticacaoEmpresa AutenticacaoEmpresa @relation(fields: [autenticacaoEmpresaId], references: [id])
+//   cnae_empresas       CnaeEmpresa         @relation(fields: [cnae_id], references: [id])
+
+//   endereco_empresas EnderecoEmpresas[]
+//   UsuariosEmpresa   UsuariosEmpresa[]
+
+//   @@map("dados_empresa")
+// }
+
+// model AutenticacaoEmpresa {
+//   id                  String    @id @default(uuid())
+//   email               String
+//   cnpj                String
+//   password            String
+//   nome_completo_admin String
+//   cargo               String
+//   created_at          DateTime? @default(now())
+//   updated_at          DateTime? @updatedAt
+
+//   tipo_empresa    TipoEmpresa[]
+//   DadosEmpresas   DadosEmpresas[]
+//   UsuariosEmpresa UsuariosEmpresa[]
+
+//   @@map("autenticacao_empresa")
+// }
+
+// model EnderecoEmpresas {
+//   id                String  @id @default(uuid())
+//   rua               String
+//   numero            String
+//   complemento       String?
+//   bairro            String
+//   cidade            String
+//   cep               String
+//   estado            String
+//   pais              String
+//   regiao_brasil     String
+//   dados_empresas_id String
+
+//   dados_empresa DadosEmpresas @relation(fields: [dados_empresas_id], references: [id])
+
+//   @@map("endereco_empresas")
+// }
+
+// model CnaeEmpresa {
+//   id               String @id @default(uuid())
+//   nome             String
+//   id_cnae          String
+//   correct_admin_id String
+
+//   correctAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+
+//   dados_empresa DadosEmpresas[]
+
+//   @@map("cnae_empresa")
+// }
+
+// model UsuariosEmpresa {
+//   id                  String @id @default(uuid())
+//   cnpj                String
+//   nome_usuario        String
+//   autenticaoEmpresaId String
+//   dadosEmpresaID      String
+//   senha               String
+
+//   AutenticacaoEmpresa AutenticacaoEmpresa @relation(fields: [autenticaoEmpresaId], references: [id])
+//   DadosEmpresa        DadosEmpresas       @relation(fields: [dadosEmpresaID], references: [id])
+
+//   @@map("usuarios_empresa")
+// }
+
+// model Cartoes {
+//   id               String @id
+//   nome             String
+//   tipo_cartao      String
+//   correct_admin_id String
+
+//   correctAdmin    CorrectAdmin          @relation(fields: [correct_admin_id], references: [id])
+//   CartoesEmpresa  CartoesEmpregadores[]
+//   CartoesComercio CartoesComercio[]
+
+//   @@map("cartoes")
+// }
+
+// model CartoesEmpregadores {
+//   id               String @id @default(uuid())
+//   cartao_id        String
+//   numero_contrato  String
+//   tipo_empresa_id  String
+//   correct_admin_id String
+
+//   correctAdmin          CorrectAdmin            @relation(fields: [correct_admin_id], references: [id])
+//   Cartoes               Cartoes                 @relation(fields: [cartao_id], references: [id])
+//   TipoEmpresa           TipoEmpresa             @relation(fields: [tipo_empresa_id], references: [id])
+//   ContasCorrectUsuarios ContasCorrectUsuarios[]
+
+//   @@map("cartoes_empregadores")
+// }
+
+// model CartoesComercio {
+//   id               String @id @default(uuid())
+//   cartao_id        String
+//   numero_contrato  String
+//   total_parcelas   Int
+//   taxa_correct_adm Float
+//   taxa_correct_mkt Float
+//   cashback         Float
+//   tipo_empresa_id  String
+
+//   correct_admin_id String
+
+//   correctAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+//   Cartoes      Cartoes      @relation(fields: [cartao_id], references: [id])
+//   TipoEmpresa  TipoEmpresa  @relation(fields: [tipo_empresa_id], references: [id])
+
+//   @@map("cartoes_comercio")
+// }
+
+// model ContaCorrectHost {
+//   id             String  @id @default(uuid())
+//   saldo          Float   @default(0)
+//   status         Boolean @default(true)
+//   correctAdminId String
+
+//   @@map("conta_correct_host")
+// }
+
+// model ContasCorrectUsuarios {
+//   id                    String    @id @default(uuid())
+//   nome_cartao           String
+//   numero_conta          String?
+//   numero_agencia        String
+//   saldo                 Float
+//   cartoesEmpregadoresId String?
+//   cadastroUsuarioId     String
+//   status                Boolean   @default(true)
+//   created_at            DateTime? @default(now())
+//   updated_at            DateTime? @updatedAt
+
+//   CartoesEmpregadore          CartoesEmpregadores?          @relation(fields: [cartoesEmpregadoresId], references: [id])
+//   CadastroUsuario             CadastroUsuario               @relation(fields: [cadastroUsuarioId], references: [id])
+//   MovimentacoesEmpresaUsuario MovimentacoesEmpresaUsuario[]
+//   ExtratoContasUsuarios       ExtratoContasUsuarios[]
+
+//   @@map("contas_correct_usuarios")
+// }
+
+// model ContasCorrectEmpresas {
+//   id             String    @id @default(uuid())
+//   saldo          Float     @default(0)
+//   status         Boolean   @default(true)
+//   numero_conta   String?
+//   numero_agencia String
+//   tipoEmpresaID  String
+//   created_at     DateTime? @default(now())
+//   updated_at     DateTime? @updatedAt
+
+//   TipoEmpresa TipoEmpresa @relation(fields: [tipoEmpresaID], references: [id])
+
+//   MovimentacoesEmpresaUsuario MovimentacoesEmpresaUsuario[]
+//   ExtratoContasEmpresas       ExtratoContasEmpresas[]
+
+//   @@map("contas_correct_empresas")
+// }
+
+// model OfflineToken {
+//   id                       String  @id @default(uuid())
+//   autenticacaoUsuarioAppId String
+//   token                    String  @unique
+//   status                   Boolean @default(true)
+
+//   AutenticacaoUsuarioApp AutenticacaoUsuario @relation(fields: [autenticacaoUsuarioAppId], references: [id])
+
+//   @@map("offline_token")
+// }
+
+// model ExtratoContasUsuarios {
+//   id                    String                @id @default(uuid())
+//   contaCorrectUsuarioId String
+//   entrada_valor         Float
+//   saida_valor           Float
+//   created_at            DateTime              @default(now())
+//   updated_at            DateTime              @updatedAt
+//   ContaCorrectUsuario   ContasCorrectUsuarios @relation(fields: [contaCorrectUsuarioId], references: [id])
+
+//   @@map("extrato_contas_usuarios")
+// }
+
+// model ExtratoContasEmpresas {
+//   id                   String                @id @default(uuid())
+//   contaCorrecEmpresaId String
+//   entrada_valor        Float
+//   saida_valor          Float
+//   created_at           DateTime              @default(now())
+//   updated_at           DateTime              @updatedAt
+//   ContaCorrectEmpresa  ContasCorrectEmpresas @relation(fields: [contaCorrecEmpresaId], references: [id])
+
+//   @@map("extrato_contas_empresas")
+// }
+
+// model MovimentacoesEmpresaUsuario {
+//   id                     String          @id @default(uuid())
+//   contaCorrectEmpresaId  String
+//   contaCorrectUsuariosId String?
+//   valor                  Float
+//   status                 StatusPagamento @default(pendente)
+//   codigo_pdv             String?
+//   total_parcelas         Int
+//   valorParcela           Float
+//   desconto               Float           @default(0)
+//   cashback_gerado        Float
+//   created_at             DateTime?       @default(now())
+//   updated_at             DateTime?       @updatedAt
+
+//   ContasCorrectsUsuarios ContasCorrectUsuarios? @relation(fields: [contaCorrectUsuariosId], references: [id])
+//   ContasCorrectEmpresaID ContasCorrectEmpresas  @relation(fields: [contaCorrectEmpresaId], references: [id])
+//   TransacaoParcela       TransacaoParcela[]
+
+//   @@map("movimentacoes_empresa_usuario")
+// }
+
+// enum StatusPagamento {
+//   pendente
+//   confirmado
+//   recusado
+// }
+
+// model TransacaoParcela {
+//   id                            String          @id @default(uuid())
+//   valorCongelado                Float
+//   dataTransacao                 DateTime        @updatedAt
+//   proximaDataTransacao          DateTime
+//   parcelasRestantes             Int
+//   statusTransacao               StatusPagamento @default(pendente)
+//   movimentacoesEmpresaUsuarioId String
+
+//   MovimentacoesEmpresaUsuario MovimentacoesEmpresaUsuario @relation(fields: [movimentacoesEmpresaUsuarioId], references: [id])
+
+//   @@map("transacao_parcela")
+// }
+
+// model DadosUsuarioApp {
+//   id                     String   @id @default(uuid())
+//   codigo_interno_empresa String?
+//   nome_completo          String
+//   sexo                   String
+//   rg                     String
+//   cpf                    String
+//   habilitacao            String?
+//   data_nascimento        DateTime
+//   estado_civil           String
+//   cargo                  String?
+//   salario                Float?
+//   tipoEmpresaId          String
+//   status                 Boolean  @default(true)
+//   autenticado            Boolean  @default(false)
+//   total_dependentes      Int
+//   correctAdminId         String
+
+//   created_at DateTime? @default(now())
+//   updated_at DateTime? @updatedAt
+
+//   correctAdmin    CorrectAdmin                 @relation(fields: [correctAdminId], references: [id])
+//   TipoEmpresa     TipoEmpresa                  @relation(fields: [tipoEmpresaId], references: [id])
+//   // enderenco_usuario    EnderecoUsuarios[]
+//   dependentes     DependentesDadosUsuarioApp[]
+//   CadastroUsuario CadastroUsuario[]
+
+//   @@map("dados_usuario_app")
+// }
+
+// model EnderecoUsuarios {
+//   id     String  @id @default(uuid())
+//   // usuario_app_id String
+//   rua    String?
+//   numero String?
+//   bairro String?
+//   cep    String?
+//   cidade String?
+//   estado String?
+//   pais   String?
+
+//   // usuarios_app DadosUsuarioApp @relation(fields: [usuario_app_id], references: [id])
+
+//   @@map("endereco_usuarios")
+// }
+
+// model AutenticacaoUsuario {
+//   id               String @id @default(uuid())
+//   foto_facial      String
+//   foto_rg_frente   String
+//   foto_rg_verso    String
+//   foto_facial_e_rg String
+//   cadastroUsarioid String
+
+//   CadastroUsuario            CadastroUsuario              @relation(fields: [cadastroUsarioid], references: [id])
+//   OfflineToken               OfflineToken[]
+//   DependentesDadosUsuarioApp DependentesDadosUsuarioApp[]
+
+//   @@map("autenticacao_usuario")
+// }
+
+// model CadastroUsuario {
+//   id                    String  @id @default(uuid())
+//   cpf                   String
+//   email                 String
+//   senha                 String
+//   dadosUsuarioAppId     String?
+//   ActiveCorrectAccounts Boolean @default(false)
+
+//   DadosUsuarioApp       DadosUsuarioApp?        @relation(fields: [dadosUsuarioAppId], references: [id])
+//   ContasCorrectUsuarios ContasCorrectUsuarios[]
+//   AutenticacaoUsuario   AutenticacaoUsuario[]
+
+//   @@map("cadastro_usuario")
+// }
+
+// model DependentesDadosUsuarioApp {
+//   id                    String   @id @default(uuid())
+//   nome                  String
+//   cpf                   String   @unique
+//   sexo                  String
+//   data_nascimento       DateTime
+//   grau_parentesco       String
+//   usuarioPaiId          String
+//   autenticacaoUsuarioId String?
+
+//   usuario_app         DadosUsuarioApp      @relation(fields: [usuarioPaiId], references: [id])
+//   AutenticacaoUsuario AutenticacaoUsuario? @relation(fields: [autenticacaoUsuarioId], references: [id])
+
+//   @@map("descendentes_colaborador")
+// }
+
+// model FilialEmpresa {
+//   id                String @id @default(uuid())
+//   nome_fantasia     String
+//   cnpj              String
+//   empresa_matriz_id String
+//   cidade_filial_id  String
+
+//   tipo_empresa TipoEmpresa @relation(fields: [empresa_matriz_id], references: [id])
+
+//   @@map("filial_empresa")
+// }
+
+// model ClubeDeVantagens {
+//   id        String @id @default(uuid())
+//   nome      String
+//   descricao String
+
+//   @@map("clube_de_vantagens")
+// }
