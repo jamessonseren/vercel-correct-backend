@@ -1,5 +1,5 @@
-import { AppUserProps, AppUserbyCorrectEntity } from "../../entities/app-user-by-correct.entity";
-import { IAppUserRepository } from "../app-user-repostory";
+import { AppUserProps, AppUserbyCorrectEntity } from "../../../entities/app-user-by-correct.entity";
+import { IAppUserRepository } from "../app-user-data-repostory";
 
 export class AppUserMemoryRepository implements IAppUserRepository {
 

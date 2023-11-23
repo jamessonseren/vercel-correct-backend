@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateAppUserByCorrectUsecase } from "./create-appuser-by-correct.usecase";
 import { ICompanyTypeRepository } from "../../../Company/repositories/company-type/company-type.repository";
-import { IAppUserRepository } from "../../repositories/app-user-repostory";
+import { IAppUserRepository } from "../../repositories/AppUserData/app-user-data-repostory";
 import { CustomError } from "../../../../errors/custom.error";
 
 export class CreateAppUserByCorrectController {

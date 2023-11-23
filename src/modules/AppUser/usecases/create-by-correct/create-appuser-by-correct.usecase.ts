@@ -5,7 +5,7 @@ import path from 'path'
 import fs from 'fs'
 import csv from 'csv-parser'
 import { format, parse } from 'date-fns'
-import { IAppUserRepository } from "../../repositories/app-user-repostory";
+import { IAppUserRepository } from "../../repositories/AppUserData/app-user-data-repostory";
 
 type AppUserRequest = {
     internal_company_code: string | null

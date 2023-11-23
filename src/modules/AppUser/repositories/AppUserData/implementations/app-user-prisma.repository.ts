@@ -1,10 +1,10 @@
-import { prismaClient } from "../../../../infra/databases/prisma.config";
-import { AppUserProps } from "../../entities/app-user-by-correct.entity";
-import { IAppUserRepository } from "../app-user-repostory";
+import { prismaClient } from "../../../../../infra/databases/prisma.config";
+import { AppUserProps, AppUserbyCorrectEntity } from "../../../entities/app-user-by-correct.entity";
+import { IAppUserRepository } from "../app-user-data-repostory";
 
 export class AppUserPrismaRepository implements IAppUserRepository{
    
-    async findById(id: string): Promise<AppUserProps | null> {
+    async findById(id: string): Promise<AppUserbyCorrectEntity | null> {
         const appUser = await prismaClient.appUserData.findUnique({
             where:{
                 id
@@ -14,7 +14,7 @@ export class AppUserPrismaRepository implements IAppUserRepository{
         return appUser || null
     }
 
-    async findByCPF(cpf: string): Promise<AppUserProps | null> {
+    async findByCPF(cpf: string): Promise<AppUserbyCorrectEntity | null> {
         const appUser = await prismaClient.appUserData.findUnique({
             where:{
                 cpf

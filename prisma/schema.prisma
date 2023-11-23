@@ -77,30 +77,44 @@ enum CompanyTypeOptions {
 }
 
 model AppUserData {
-  id                    String  @id @default(uuid())
+  id                    String   @id @default(uuid())
   internal_company_code String?
   full_name             String
   gender                String
-  rg                    String? @unique
-  cpf                   String  @unique
-  driver_license        String? @unique
+  rg                    String?  @unique
+  cpf                   String   @unique
+  driver_license        String?  @unique
   date_of_birth         DateTime
   function              String?
   salary                Float?
   company_type_id       String
-  status                Boolean @default(true)
-  authenticated         Boolean @default(false)
+  status                Boolean  @default(true)
+  authenticated         Boolean  @default(false)
   marital_status        String
-  dependents_quantity   Int     @default(0)
+  dependents_quantity   Int      @default(0)
   correct_admin_id      String
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
-  CompanyType  CompanyType  @relation(fields: [company_type_id], references: [id])
+  CorrectAdmin CorrectAdmin  @relation(fields: [correct_admin_id], references: [id])
+  CompanyType  CompanyType   @relation(fields: [company_type_id], references: [id])
+  AppUserAuth  AppUserAuth[]
 
   @@map("app_user_data")
+}
+
+model AppUserAuth {
+  id               String  @id @default(uuid())
+  cpf              String  @unique
+  email            String  @unique
+  password         String
+  app_user_data_id String?
+  authenticated    Boolean @default(false)
+
+  AppUserData AppUserData? @relation(fields: [app_user_data_id], references: [id])
+
+  @@map("app_user_auth")
 }
 
 // model MovimentacoeslucroCorrect {
