@@ -29,7 +29,7 @@ export class CorrectAdminEntity {
     static async create(data: ICorrectAdmin){
         if(!data.userName) throw new CustomError("Username/password is required!", 412)
         if(!data.password) throw new CustomError("Username/password is required!", 412)
-        if(!data.email) throw new CustomError("Username/password is required!", 412)
+        if(!data.email) throw new CustomError("Email is required!", 412)
 
         const bcrypt = new PasswordBcrypt()
         const passwordHash = await bcrypt.hash(data.password)

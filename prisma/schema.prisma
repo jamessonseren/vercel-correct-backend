@@ -11,19 +11,96 @@ datasource db {
 }
 
 model CorrectAdmin {
-  id       String @id @default(uuid())
-  nome     String
-  usuario  String @unique
-  email    String @unique
-  password String
-  // Cartoes             Cartoes[]
-  // CartoesEmpregadores CartoesEmpregadores[]
-  // CartoesComercio     CartoesComercio[]
-  // CnaeEmpresa         CnaeEmpresa[]
-  // DadosUsuarioApp     DadosUsuarioApp[]
-  // DadosEmpresas       DadosEmpresas[]
+  id          String        @id @default(uuid())
+  name        String
+  userName    String        @unique
+  email       String        @unique
+  password    String
+  CompanyData CompanyData[]
+  AppUserData AppUserData[]
 
   @@map("correct_admin")
+}
+
+model CompanyAdmin {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  cnpj       String    @unique
+  password   String
+  fullName   String
+  function   String
+  status     Boolean   @default(true)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  CompanyData CompanyData[]
+  CompanyType CompanyType[]
+
+  @@map("company_admin")
+}
+
+model CompanyData {
+  id               String  @id @default(uuid())
+  corporate_name   String
+  cnpj             String  @unique
+  cnae_id          String
+  classification   String
+  total_employees  Int
+  phone_1          String
+  phone_2          String?
+  company_admin_id String
+  correct_admin_id String
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+  CompanyAdmin CompanyAdmin @relation(fields: [company_admin_id], references: [id])
+
+  @@map("company_data")
+}
+
+model CompanyType {
+  id               String             @id @default(uuid())
+  type             CompanyTypeOptions
+  cnpj             String             @unique
+  company_admin_id String
+
+  CompanyAdmin CompanyAdmin  @relation(fields: [company_admin_id], references: [id])
+  AppUserData  AppUserData[]
+
+  @@map("company_type")
+}
+
+enum CompanyTypeOptions {
+  empregador
+  comercio
+  autonomo_comercio
+  empregador_comercio
+}
+
+model AppUserData {
+  id                    String  @id @default(uuid())
+  internal_company_code String?
+  full_name             String
+  gender                String
+  rg                    String? @unique
+  cpf                   String  @unique
+  driver_license        String? @unique
+  date_of_birth         DateTime
+  function              String?
+  salary                Float?
+  company_type_id       String
+  status                Boolean @default(true)
+  authenticated         Boolean @default(false)
+  marital_status        String
+  dependents_quantity   Int     @default(0)
+  correct_admin_id      String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+  CompanyType  CompanyType  @relation(fields: [company_type_id], references: [id])
+
+  @@map("app_user_data")
 }
 
 // model MovimentacoeslucroCorrect {
@@ -35,70 +112,6 @@ model CorrectAdmin {
 //   status                         StatusPagamento @default(pendente)
 
 //   @@map("movimentacoes_lucro_correct")
-// }
-
-// enum TipoDaEmpresa {
-//   empregador
-//   comercio
-//   autonomo_comercio
-//   empregador_comercio
-// }
-
-// model TipoEmpresa {
-//   id                    String        @id @default(uuid())
-//   tipo                  TipoDaEmpresa
-//   nomeFantasia          String
-//   cnpj                  String
-//   autenticacaoEmpresaId String?
-
-//   FilialEmpresa         FilialEmpresa[]
-//   AutenticacaoEmpresa   AutenticacaoEmpresa?    @relation(fields: [autenticacaoEmpresaId], references: [id])
-//   ContasCorrectEmpresas ContasCorrectEmpresas[]
-//   DadosUsuarioApp       DadosUsuarioApp[]
-//   CartoesEmpregadores   CartoesEmpregadores[]
-//   CartoesComercio       CartoesComercio[]
-
-//   @@map("tipo_empresa")
-// }
-
-// model DadosEmpresas {
-//   id                    String  @id @default(uuid())
-//   razao_social          String
-//   cnpj                  String
-//   cnae_id               String
-//   classificacao         String
-//   total_colaboradores   Int
-//   status                Boolean @default(false)
-//   telefone_1            String
-//   telefone_2            String?
-//   autenticacaoEmpresaId String
-//   correctAdminId        String
-
-//   CorrectAdmin        CorrectAdmin        @relation(fields: [correctAdminId], references: [id])
-//   AutenticacaoEmpresa AutenticacaoEmpresa @relation(fields: [autenticacaoEmpresaId], references: [id])
-//   cnae_empresas       CnaeEmpresa         @relation(fields: [cnae_id], references: [id])
-
-//   endereco_empresas EnderecoEmpresas[]
-//   UsuariosEmpresa   UsuariosEmpresa[]
-
-//   @@map("dados_empresa")
-// }
-
-// model AutenticacaoEmpresa {
-//   id                  String    @id @default(uuid())
-//   email               String
-//   cnpj                String
-//   password            String
-//   nome_completo_admin String
-//   cargo               String
-//   created_at          DateTime? @default(now())
-//   updated_at          DateTime? @updatedAt
-
-//   tipo_empresa    TipoEmpresa[]
-//   DadosEmpresas   DadosEmpresas[]
-//   UsuariosEmpresa UsuariosEmpresa[]
-
-//   @@map("autenticacao_empresa")
 // }
 
 // model EnderecoEmpresas {

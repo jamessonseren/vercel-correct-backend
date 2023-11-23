@@ -1,41 +1,48 @@
 import { prismaClient } from "../../../../infra/databases/prisma.config";
 import { CorrectAdminEntity } from "../../entities/correct-admin.entity";
-import { CorrectAdminMapper } from "../../mapper/CorrectAdminMapper";
 import { ICorrectAdminRepository } from "../correct-admin.repository";
 
-export class CorrectAdminPrismaRepository implements ICorrectAdminRepository{
+export type AdminResponse = {
+    id: string
+    name: string
+    email: string
+    userName: string
+}
+export class CorrectAdminPrismaRepository implements ICorrectAdminRepository {
     async findByUserName(userName: string): Promise<CorrectAdminEntity | null> {
         const admin = await prismaClient.correctAdmin.findUnique({
-            where:{
-                usuario: userName
+            where: {
+                userName: userName
             }
         })
 
-        if(admin) return CorrectAdminMapper.prismaToEntity(admin)
-        return null
+       return admin
     }
-    async save(data: CorrectAdminEntity): Promise<CorrectAdminEntity> {
+    async save(data: CorrectAdminEntity): Promise<AdminResponse> {
         const admin = await prismaClient.correctAdmin.create({
             data: {
-                nome: data.name,
+                name: data.name,
                 email: data.email,
-                usuario: data.userName,
+                userName: data.userName,
                 password: data.password
-            }
+            },
+            select:{
+                id: true,
+                name: true,
+                email: true,
+                userName: true,            }
         })
-        
-        return CorrectAdminMapper.prismaToEntity(admin)
+
+        return admin
     }
 
-   async findById(id: string): Promise<CorrectAdminEntity | null> {
-        const correctAdmin = await prismaClient.correctAdmin.findUnique({
-            where:{
+    async findById(id: string): Promise<AdminResponse | null> {
+        const admin = await prismaClient.correctAdmin.findUnique({
+            where: {
                 id
             }
         })
-        if(correctAdmin) return CorrectAdminMapper.prismaToEntity(correctAdmin)
-
-        return null
+       return admin
     }
 
 }

@@ -1,9 +1,8 @@
 import { CustomError } from "../../../../errors/custom.error"
 import { CorrectAdminEntity } from "../../entities/correct-admin.entity"
 import { ICorrectAdminRepository } from "../../repositories/correct-admin.repository"
-import { CorrectAdminPrismaRepository } from "../../repositories/implementations/correct-admin.prisma.repository"
 
-type CorrectAdminRequest = {
+export type CorrectAdminRequest = {
     name: string
     email: string
     userName: string
@@ -18,9 +17,7 @@ export class CreateCorrectAdminUseCase{
     async execute(data: CorrectAdminRequest){
         const admin = await CorrectAdminEntity.create(data)
 
-        const correctAdminRepository = new CorrectAdminPrismaRepository()
-
-        const adminExists = await correctAdminRepository.findByUserName(data.userName)
+        const adminExists = await this.adminRepository.findByUserName(data.userName)
 
         if(adminExists) throw new CustomError("UserName already exists", 400, "ERROR")
 
