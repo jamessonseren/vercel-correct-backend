@@ -5,7 +5,6 @@ import path from 'path'
 import fs from 'fs'
 import csv from 'csv-parser'
 import { format, parse } from 'date-fns'
-import { prismaClient } from "../../../../infra/databases/prisma.config";
 import { IAppUserRepository } from "../../repositories/app-user-repostory";
 
 type AppUserRequest = {
@@ -26,30 +25,38 @@ export class CreateAppUserByCorrectUsecase {
         private appUserRepository: IAppUserRepository
     ) { }
 
-    async execute(csvFilePath: string, company_type_id: string, company_admin_id: string) {
+    async execute(csvFilePath: string, company_type_id: string, correct_admin_id: string) {
 
         const filePath = path.join(__dirname, '..', '..', '..', '..', 'tmp', csvFilePath);
         if (!fs.existsSync(filePath)) throw new CustomError("File not found", 400);
-
-        let results: AppUserRequest[] = [];
-        let usersRegistered: AppUserRequest[] = [];
-        let alreadyRegistered: string[] = [];
 
         const findCompany = await this.companyTypeRepository.findById(company_type_id)
 
         if (!findCompany) throw new CustomError("Company Type must be registered", 401)
 
-        if (findCompany?.type === 'comercio' || findCompany?.type === "autonomo_comercio") throw new CustomError("Invalid Company type!", 401)
+        if (findCompany.type === 'comercio' || findCompany.type === "autonomo_comercio") throw new CustomError("Invalid Company type!", 401)
+
+        
+        return await this.readCSV(filePath, company_type_id, correct_admin_id)
+        
+    }
+
+    private async readCSV(filePath: string, company_type_id: string, correct_admin_id: string){
+        let results: AppUserRequest[] = [];
+        let usersRegistered: AppUserRequest[] = [];
+        let alreadyRegistered: string[] = [];
+
 
         return new Promise((resolve, reject) => {
 
             fs.createReadStream(filePath)
                 .pipe(csv({ separator: ',' }))
                 .on('data', async (data) => {
-                    // Verifique se os campos obrigatórios estão preenchidos
+                    try{
+                    // All csv header title must be in this condition
                     if (data['\ufeffcodigo_interno'] && data['nome_completo'] && data['sexo'] && data['rg'] && data['cpf'] && data['data_nascimento'] && data['estado_civil'] && data['total_dependentes'] && data['cargo']) {
 
-                        // Processar os dados do CSV
+                        // Process CSV data
                         const internal_company_code = await data['\ufeffcodigo_interno'];
                         const full_name = await data['nome_completo'];
                         const gender = await data['sexo'];
@@ -74,15 +81,19 @@ export class CreateAppUserByCorrectUsecase {
 
                         };
 
+                        //if everything works fine, add all data to results Array
                         results.push(userDataFromCSV);
                     } else {
-                        console.log('caiu aqui')
+                        throw new CustomError("File must be according to model!", 400)
                     }
-
+                }catch(err){
+                    reject(err)
+                }
 
                 })
                 .on('end', async () => {
 
+                    //after adding everything, pass each user from Results array
                     for (const user of results) {
                         const data: AppUserProps = {
                             internal_company_code: user.internal_company_code,
@@ -94,15 +105,14 @@ export class CreateAppUserByCorrectUsecase {
                             date_of_birth: user.date_of_birth,
                             function: user.user_function,
                             salary: null,
-                            company_type_id: findCompany.id,
+                            company_type_id: company_type_id,
                             dependents_quantity: user.dependents_quantity,
                             marital_status: user.marital_status,
-                            correct_admin_id: company_admin_id,
+                            correct_admin_id: correct_admin_id,
 
                         }
 
                         const appUser = AppUserbyCorrectEntity.create(data)
-
 
                         const findUser = await this.appUserRepository.findByCPF(user.cpf)
 
@@ -111,8 +121,6 @@ export class CreateAppUserByCorrectUsecase {
 
 
                         } else {
-
-                            console.log({ appUser })
                             await this.appUserRepository.save(appUser)
                             usersRegistered.push(user)
 
