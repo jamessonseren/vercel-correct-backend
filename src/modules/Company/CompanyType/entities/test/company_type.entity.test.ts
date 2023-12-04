@@ -23,7 +23,7 @@ describe("Company Type Entity", () => {
     });
     it("Should be able to select Admin Company Type", async () => {
         
-        const companyType = CompanyTypeEntity.create({
+        const companyType = await CompanyTypeEntity.create({
             type: 'comercio',
             cnpj: 'comercio',
             company_admin_id: companyAdmin.id
@@ -33,15 +33,26 @@ describe("Company Type Entity", () => {
         expect(companyType).toHaveProperty('id')
     })
 
-    it("Should not be able to select Admin Company Type", async () => {
+    it("Should not be able to select Admin Company Type if CNPJ is missing", async () => {
  
-        const companyType = CompanyTypeEntity.create({
-            type: 'comercio',
-            cnpj: 'comercio',
-            company_admin_id: companyAdmin.id
-        })
+        expect(async () => {
+            await CompanyTypeEntity.create({
+                type: "comercio",
+                cnpj: '',
+                company_admin_id: companyAdmin.id
+            })
+        }).rejects.toThrow("CNPJ must be informed")
+    })
 
-        expect(companyType).toBeInstanceOf(CompanyTypeEntity)
-        expect(companyType).toHaveProperty('id')
+    it("Should not be able to select Admin Company Type if Admin Id is missing", async () => {
+ 
+        expect(async () => {
+            await CompanyTypeEntity.create({
+                type: "comercio",
+                cnpj: 'comercio',
+                company_admin_id:''
+            })
+        }).rejects.toThrow("User must be signed in")
+
     })
 })

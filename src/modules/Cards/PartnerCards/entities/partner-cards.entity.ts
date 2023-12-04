@@ -57,7 +57,7 @@ export class PartnerCardsEntity{
 
     }
 
-    static create(data: PartnerCardsProps){
+    static async create(data: PartnerCardsProps){
        
         const partnerCards = new PartnerCardsEntity(data)
         return partnerCards

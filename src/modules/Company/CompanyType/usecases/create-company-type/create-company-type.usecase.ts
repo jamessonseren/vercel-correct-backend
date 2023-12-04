@@ -10,7 +10,8 @@ export class CreateCompanyTypeUsecase{
         private companyTypeRepository: ICompanyTypeRepository
     ){}
     async execute(data: CompanyTypeProps){
-        const companyType = CompanyTypeEntity.create(data)
+        const companyType = await CompanyTypeEntity.create(data)
+        
         //find company admin by Id
         const companyAdmin = await this.companyAdminRepository.findById(data.company_admin_id)
 

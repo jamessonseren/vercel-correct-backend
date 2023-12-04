@@ -13,7 +13,7 @@ export class CreatePartnerCardsUsecase {
 
     async execute(data: PartnerCardsProps, companyAdminId: string) {
 
-        const partnerCard = PartnerCardsEntity.create(data)
+        const partnerCard = await PartnerCardsEntity.create(data)
 
         //check if company data is already registered
         const findCompanyData = await this.companyDataRepository.findByCompanyAdmin(companyAdminId)

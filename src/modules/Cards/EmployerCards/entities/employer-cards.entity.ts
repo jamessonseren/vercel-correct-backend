@@ -2,11 +2,9 @@ import { randomUUID } from 'crypto'
 import { CustomError } from '../../../../errors/custom.error'
 
 export type EmployerCardsProps = {
-    contract_number: string
     card_id: string
     company_type_id: string
-    // start_day_cycle: number
-    // cycle_duration: number
+    
 }
 
 export class EmployerCardsEntity{
@@ -14,8 +12,7 @@ export class EmployerCardsEntity{
     contract_number: string
     card_id: string
     company_type_id: string
-    // start_day_cycle: number
-    // cycle_duration: number
+    
 
     private constructor(props: EmployerCardsProps){
 
@@ -23,15 +20,15 @@ export class EmployerCardsEntity{
         this.contract_number = randomUUID()
         this.card_id = props.card_id
         this.company_type_id = props.company_type_id
-        // this.start_day_cycle = props.start_day_cycle
-        // this.cycle_duration = props.cycle_duration
 
         if(!props.card_id) throw new CustomError("Card Id is required", 401)
-        // if(!props.start_day_cycle) throw new CustomError("Start day is required", 401)
-        // if(!props.cycle_duration) throw new CustomError("Cycle duration is required", 401)
 
+        if(typeof props.card_id !== 'string') throw new CustomError("Card Id must be string type", 401)
 
     }
 
-    static create(){}
+    static async create(data: EmployerCardsProps){
+        const employerCards = new EmployerCardsEntity(data)
+        return employerCards
+    }
 }
