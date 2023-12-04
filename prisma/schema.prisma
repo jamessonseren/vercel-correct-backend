@@ -18,6 +18,7 @@ model CorrectAdmin {
   password    String
   CompanyData CompanyData[]
   AppUserData AppUserData[]
+  Cards       Cards[]
 
   @@map("correct_admin")
 }
@@ -63,8 +64,10 @@ model CompanyType {
   cnpj             String             @unique
   company_admin_id String
 
-  CompanyAdmin CompanyAdmin  @relation(fields: [company_admin_id], references: [id])
-  AppUserData  AppUserData[]
+  CompanyAdmin  CompanyAdmin    @relation(fields: [company_admin_id], references: [id])
+  AppUserData   AppUserData[]
+  PartnerCards  PartnerCards[]
+  EmployerCards EmployerCards[]
 
   @@map("company_type")
 }
@@ -94,8 +97,8 @@ model AppUserData {
   dependents_quantity   Int      @default(0)
   correct_admin_id      String
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
 
   CorrectAdmin CorrectAdmin  @relation(fields: [correct_admin_id], references: [id])
   CompanyType  CompanyType   @relation(fields: [company_type_id], references: [id])
@@ -112,10 +115,87 @@ model AppUserAuth {
   app_user_data_id String?
   authenticated    Boolean @default(false)
 
-  AppUserData AppUserData? @relation(fields: [app_user_data_id], references: [id])
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  AppUserData               AppUserData?                @relation(fields: [app_user_data_id], references: [id])
+  AppUserValidationDocument AppUserValidationDocument[]
 
   @@map("app_user_auth")
 }
+
+model AppUserValidationDocument {
+  id                        String  @id @default(uuid())
+  face_picture              String
+  document_front_picture    String
+  document_back_picture     String
+  face_and_document_picture String
+  status                    Boolean @default(false)
+  app_user_auth_id          String
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  AppUserAuth AppUserAuth @relation(fields: [app_user_auth_id], references: [id])
+
+  @@map("app_user_validation")
+}
+
+model Cards {
+  id               String   @id @default(uuid())
+  card_name        String   @unique
+  card_type        CardType
+  correct_admin_id String
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+
+  created_at    DateTime?       @default(now())
+  updated_at    DateTime?       @updatedAt
+  PartnerCards  PartnerCards[]
+  EmployerCards EmployerCards[]
+
+  @@map("cards")
+}
+
+enum CardType {
+  pos_pago
+  pre_pago
+}
+
+model PartnerCards {
+  id                 String  @id @default(uuid())
+  contract_number    String  @unique @default(uuid())
+  card_id            String
+  company_type_id    String
+  // start_day_cycle    Int
+  // end_day_cycle      Int?    @default(30)
+  adm_correct_fee    Float
+  mkt_correct_fee    Float
+  total_installments Int     @default(1)
+  cashback           Float
+  validate           Boolean @default(false)
+
+  Cards       Cards       @relation(fields: [card_id], references: [id])
+  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+
+  @@map("partner_cards")
+}
+
+model EmployerCards {
+  id              String @id @default(uuid())
+  contract_number String @unique @default(uuid())
+  card_id         String
+  company_type_id String
+  // start_day_cycle Int
+  // cycle_duration  Int
+
+  Cards       Cards       @relation(fields: [card_id], references: [id])
+  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+
+  @@map("employer_cards")
+}
+
+
 
 // model MovimentacoeslucroCorrect {
 //   id                             String          @id @default(uuid())

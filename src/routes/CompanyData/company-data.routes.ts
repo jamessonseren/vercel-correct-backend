@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { companyDataController } from "../../modules/Company/usecases/company-data/create-company-data";
+import { companyDataController } from "../../modules/Company/CompanyData/usecases/create-company-data";
 import { companyIsAuth } from "../../infra/shared/middlewares/CompanyAdmin/company-admin-auth.middlware";
 
 export const companyDataRouter = Router()

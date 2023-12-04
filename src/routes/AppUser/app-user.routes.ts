@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createAppUserByUserController } from "../../modules/AppUser/usecases/create-by-user";
-import { createAppUserByCorrectController } from "../../modules/AppUser/usecases/create-by-correct";
+import { createAppUserByCorrectController } from "../../modules/AppUser/UserByCorrect/usecases";
+import { createAppUserByUserController } from "../../modules/AppUser/AppUserManagement/usecases/create-by-user";
 import uploadConfig from '../../infra/shared/multer/multer.config'
 import multer from 'multer'
 import { correctIsAuth } from "../../infra/shared/middlewares/CorrectAdmin/correct-admin-auth.middleware";

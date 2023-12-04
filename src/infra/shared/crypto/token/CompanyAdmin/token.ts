@@ -1,4 +1,4 @@
-import { CompanyAdminEntity } from "../../../../../modules/Company/entities/company-admin/company-admin.entity"
+import { CompanyAdminEntity } from "../../../../../modules/Company/CompanyAdmin/entities/company-admin.entity"
 
 export type TokenAdmin = {
     sub: string

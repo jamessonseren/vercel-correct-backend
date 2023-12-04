@@ -1,6 +1,6 @@
 import { Router, response } from "express";
-import { companyAdminController } from "../../modules/Company/usecases/company-admin/create-company-admin";
-import { authCompanyAdminController } from "../../modules/Company/usecases/company-admin/authenticate-company-admin";
+import { companyAdminController } from "../../modules/Company/CompanyAdmin/usecases/create-company-admin";
+import { authCompanyAdminController } from "../../modules/Company/CompanyAdmin/usecases/authenticate-company-admin";
 
 export const companyAdminRouter = Router()
 

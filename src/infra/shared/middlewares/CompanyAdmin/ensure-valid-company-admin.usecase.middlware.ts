@@ -1,4 +1,4 @@
-import { ICompanyAdminRepository } from "../../../../modules/Company/repositories/company-admin/company-admin.repository";
+import { ICompanyAdminRepository } from "../../../../modules/Company/CompanyAdmin/repositories/company-admin.repository";
 import { CustomError } from "../../../../errors/custom.error";
 
 export class EnsureValidCompanyAdminUsecase {

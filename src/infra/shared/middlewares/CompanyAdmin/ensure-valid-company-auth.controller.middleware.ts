@@ -1,4 +1,4 @@
-import { ICompanyAdminRepository } from "../../../../modules/Company/repositories/company-admin/company-admin.repository";
+import { ICompanyAdminRepository } from "../../../../modules/Company/CompanyAdmin/repositories/company-admin.repository";
 import { Request, Response } from "express";
 import { EnsureValidCompanyAdminUsecase } from "./ensure-valid-company-admin.usecase.middlware";
 

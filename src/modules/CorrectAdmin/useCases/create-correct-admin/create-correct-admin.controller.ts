@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ICorrectAdminRepository } from "../../repositories/correct-admin.repository";
-import { CreateCorrectAdminUseCase } from "./create-correct-admin.usecase";
+import { CorrectAdminRequest, CreateCorrectAdminUseCase } from "./create-correct-admin.usecase";
 
 export class CreateCorrectAdminController {
     constructor(
@@ -8,7 +8,7 @@ export class CreateCorrectAdminController {
     ){}
     async handle(req: Request, res: Response){
         try{
-            const data = req.body
+            const data: CorrectAdminRequest = req.body
 
             const adminUseCase = new CreateCorrectAdminUseCase(this.adminRepository)
 

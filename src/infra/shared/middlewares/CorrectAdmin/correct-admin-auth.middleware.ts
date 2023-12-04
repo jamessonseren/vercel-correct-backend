@@ -29,6 +29,6 @@ export const correctIsAuth = async (req: Request, res: Response, next: NextFunct
     await ensureValidAdmin.handle(req, res)
 
     return res.status(401).json({
-        error: "Invalid Token"
+        error: "Authentication Error"
     })
 }

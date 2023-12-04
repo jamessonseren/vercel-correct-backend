@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 
 import { createHmac } from 'crypto'
 
-import { CompanyAdminEntity } from '../../../../../modules/Company/entities/company-admin/company-admin.entity';
+import { CompanyAdminEntity } from '../../../../../modules/Company/CompanyAdmin/entities/company-admin.entity';
 import { TokenAdmin, ICompanyAdminToken } from '../CompanyAdmin/token';
 
 export class CompanyAdminJWToken implements ICompanyAdminToken{

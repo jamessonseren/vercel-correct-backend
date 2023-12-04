@@ -19,7 +19,7 @@ export class CreateCorrectAdminUseCase{
 
         const adminExists = await this.adminRepository.findByUserName(data.userName)
 
-        if(adminExists) throw new CustomError("UserName already exists", 400, "ERROR")
+        if(adminExists) throw new CustomError("UserName already exists", 409, "ERROR")
 
         const createAdmin = await this.adminRepository.save(admin)
 

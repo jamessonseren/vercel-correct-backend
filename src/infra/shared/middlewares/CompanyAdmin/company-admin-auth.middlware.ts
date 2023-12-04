@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { CompanyAdminJWToken } from "../../crypto/token/CompanyAdmin/jwt.token"
-import { CompanyAdminPrismaRepository } from "../../../../modules/Company/repositories/company-admin/implementations/company-admin.prisma.repository"
+import { CompanyAdminPrismaRepository } from "../../../../modules/Company/CompanyAdmin/repositories/implementations/company-admin.prisma.repository"
 import { EnsureValidCompanyAdminController } from "./ensure-valid-company-auth.controller.middleware"
 
 export const companyIsAuth = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +12,7 @@ export const companyIsAuth = async (req: Request, res: Response, next: NextFunct
     })
 
     const [, token] = headerAuth.split(" ")
-    console.log( { token })
+    
     if (!token) return res.status(401).json({
         error: 'Token is missing'
     })
