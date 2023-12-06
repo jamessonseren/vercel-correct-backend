@@ -8,25 +8,27 @@ export const correctIsAuth = async (req: Request, res: Response, next: NextFunct
     const headerAuth = req.headers.authorization
 
     if (!headerAuth) return res.status(401).json({
-        error: 'Token is missing'
+        error: 'Token is required'
     })
 
     const [, token] = headerAuth.split(" ")
 
     if (!token) return res.status(401).json({
-        error: 'Token is missing'
+        error: 'Token is required'
     })
 
     const verifyToken = new JWTToken().validate(token)
 
     if (verifyToken) {
         req.correctAdminId = verifyToken.sub
+
+        const correctAdminRepository = new CorrectAdminPrismaRepository()
+        const ensureValidAdmin = new EnsureValidCorrectAdminController(correctAdminRepository)
+        await ensureValidAdmin.handle(req, res)
+
         return next()
     }
 
-    const correctAdminRepository = new CorrectAdminPrismaRepository()
-    const ensureValidAdmin = new EnsureValidCorrectAdminController(correctAdminRepository)
-    await ensureValidAdmin.handle(req, res)
 
     return res.status(401).json({
         error: "Authentication Error"

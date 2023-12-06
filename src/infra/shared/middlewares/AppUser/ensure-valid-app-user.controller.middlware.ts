@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAppUserAuthRepository } from "../../../../modules/AppUser/repositories/AppUserAuth/app-use-auth-repository";
+import { IAppUserAuthRepository } from "../../../../modules/AppUser/AppUserManagement/repositories/app-use-auth-repository";
 import { EnsureValidAppUserUsecase } from "./ensure-valid-app-user.usecase.middleware";
 
 export class EnsureValidAppUserController{
@@ -11,11 +11,11 @@ export class EnsureValidAppUserController{
         try{
             const appUserId = req.appUserId
 
-            const validAdminUsecase = new EnsureValidAppUserUsecase(
+            const validAppUserUsecase = new EnsureValidAppUserUsecase(
                 this.appUserAutRepository
             )
 
-            const appUser = await validAdminUsecase.execute(appUserId)
+            const appUser = await validAppUserUsecase.execute(appUserId)
 
             return appUser
 

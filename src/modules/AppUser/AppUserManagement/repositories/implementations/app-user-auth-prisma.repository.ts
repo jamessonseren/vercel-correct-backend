@@ -1,6 +1,6 @@
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
 import { AppUserByUserEntity } from "../../entities/create-user-by-user/appuser-by-user.entity";
-import { IAppUserAuthRepository } from "../app-use-auth-repository";
+import { AppUserResponse, IAppUserAuthRepository } from "../app-use-auth-repository";
 import { AppUserAuthResponse } from "../app-use-auth-repository";
 
 export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
@@ -36,14 +36,28 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
         return appUser
     }
 
-    async findById(id: string): Promise<AppUserByUserEntity | null> {
+    async findById(id: string): Promise<AppUserResponse | null> {
         const appUser = await prismaClient.appUserAuth.findUnique({
             where:{
                 id
+            },
+            include:{
+                AppUserData:{
+                    select:{
+                        company_type_id: true
+                    }
+                }
             }
         })
 
-        return appUser
+        if(appUser === null) return null
+
+        return {
+            ...appUser,
+            AppUserData: {
+                company_type_id: appUser.AppUserData!.company_type_id
+            },
+        }
     }
     async saveNewUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
         const appUser = await prismaClient.appUserAuth.create({

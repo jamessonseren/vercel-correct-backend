@@ -5,7 +5,8 @@ import { CardsProps } from "../entities/cards.entity";
 
 export class CreateCardsController {
     constructor(
-        private cardsRepository: ICards
+        private cardsRepository: ICards,
+
 
     ) { }
     async handle(req: Request, res: Response) {

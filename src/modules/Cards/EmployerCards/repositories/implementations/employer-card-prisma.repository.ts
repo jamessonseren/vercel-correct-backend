@@ -14,8 +14,8 @@ export class EmployerCardsPrismaRepository implements IEmployercardRepository{
         return employerCard
     }
 
-    async findByCompanyType(company_type_id: string): Promise<EmployerCardsEntity | null> {
-        const employerCard = await prismaClient.employerCards.findFirst({
+    async findByCompanyType(company_type_id: string): Promise<EmployerCardsEntity[] | null> {
+        const employerCard = await prismaClient.employerCards.findMany({
             where:{
                 company_type_id
             }
@@ -39,7 +39,6 @@ export class EmployerCardsPrismaRepository implements IEmployercardRepository{
             data:{
                 card_id: data.card_id,
                 company_type_id: data.company_type_id,
-                contract_number: data.contract_number
             }
         })
 

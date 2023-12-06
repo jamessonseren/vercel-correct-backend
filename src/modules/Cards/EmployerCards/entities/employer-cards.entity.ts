@@ -8,7 +8,7 @@ export type EmployerCardsProps = {
 }
 
 export class EmployerCardsEntity{
-    id: String
+    id: string
     contract_number: string
     card_id: string
     company_type_id: string

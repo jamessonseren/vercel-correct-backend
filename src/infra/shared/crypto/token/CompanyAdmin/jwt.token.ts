@@ -4,7 +4,7 @@ import { verify } from 'jsonwebtoken';
 import { createHmac } from 'crypto'
 
 import { CompanyAdminEntity } from '../../../../../modules/Company/CompanyAdmin/entities/company-admin.entity';
-import { TokenAdmin, ICompanyAdminToken } from '../CompanyAdmin/token';
+import { TokenCompanyAdmin, ICompanyAdminToken } from '../CompanyAdmin/token';
 
 export class CompanyAdminJWToken implements ICompanyAdminToken{
     private TOKEN_SECRET = process.env.SECRET_KEY_TOKEN_COMPANY_ADMIN || ''
@@ -25,9 +25,9 @@ export class CompanyAdminJWToken implements ICompanyAdminToken{
 
         return token
     }
-    validate(token: string): TokenAdmin | null {
+    validate(token: string): TokenCompanyAdmin | null {
         try {
-            const tokenAdmin = verify(token, this.TOKEN_SECRET_CRYPTO) as TokenAdmin
+            const tokenAdmin = verify(token, this.TOKEN_SECRET_CRYPTO) as TokenCompanyAdmin
             return tokenAdmin
 
         } catch (err) {

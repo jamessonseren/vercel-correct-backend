@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto'
 import { CustomError } from '../../../../../errors/custom.error'
+import { PasswordBCrypt } from '../../../../../infra/shared/crypto/password.bcrypt'
 
 export type IAuthAppUserProps = {
     cpf: string
@@ -27,6 +28,12 @@ export class AppUserByUserEntity{
     }
     
     static async create(data: IAuthAppUserProps){
+
+        const bcrypt = new PasswordBCrypt()
+        const passwordHash = await bcrypt.hash(data.password)
+
+        data.password = passwordHash
+        
         const appUser = new AppUserByUserEntity(data)
         return appUser
     }

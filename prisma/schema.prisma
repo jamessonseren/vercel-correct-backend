@@ -120,6 +120,7 @@ model AppUserAuth {
 
   AppUserData               AppUserData?                @relation(fields: [app_user_data_id], references: [id])
   AppUserValidationDocument AppUserValidationDocument[]
+  AppUserAccounts           AppUserAccounts[]
 
   @@map("app_user_auth")
 }
@@ -186,16 +187,29 @@ model EmployerCards {
   contract_number String @unique @default(uuid())
   card_id         String
   company_type_id String
-  // start_day_cycle Int
-  // cycle_duration  Int
 
-  Cards       Cards       @relation(fields: [card_id], references: [id])
-  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+  Cards           Cards             @relation(fields: [card_id], references: [id])
+  CompanyType     CompanyType       @relation(fields: [company_type_id], references: [id])
+  AppUserAccounts AppUserAccounts[]
 
   @@map("employer_cards")
 }
 
+model AppUserAccounts {
+  id                String    @id @default(uuid())
+  account_number    String    @unique @default(uuid())
+  available_amount  Float
+  employer_cards_id String
+  app_user_id       String
+  status            Boolean   @default(true)
+  created_at        DateTime? @default(now())
+  updated_at        DateTime? @updatedAt
 
+  EmployerCards EmployerCards @relation(fields: [employer_cards_id], references: [id])
+  AppUserAuth   AppUserAuth   @relation(fields: [app_user_id], references: [id])
+
+  @@map("app_user_accounts")
+}
 
 // model MovimentacoeslucroCorrect {
 //   id                             String          @id @default(uuid())
