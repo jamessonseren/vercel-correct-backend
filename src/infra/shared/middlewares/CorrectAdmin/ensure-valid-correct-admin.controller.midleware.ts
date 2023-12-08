@@ -9,7 +9,8 @@ export class EnsureValidCorrectAdminController{
 
     async handle(req: Request, res: Response){
         try{
-            const correctAdminId = req.companyAdminId
+            const correctAdminId = req.correctAdminId
+            
             const validAdminUsecase = new EnsureValidCorrectAdminUsecase(
                 this.correctAdminRepository
             )

@@ -47,9 +47,28 @@ export class AppUserAccountPrismaRepository implements IAppUserAccountRepository
         return userAccount
     }
     async findByAppUserId(id: string): Promise<AppUserAccountsResponse | null> {
-        const userAccount = await prismaClient.appUserAccounts.findUnique({
+        const userAccount = await prismaClient.appUserAccounts.findFirst({
             where:{
-                id
+                app_user_id: id
+            },
+            include:{
+                AppUserAuth: true,
+                EmployerCards: {
+                    include:{
+                        Cards: true
+                    }
+                }
+            }
+        })
+
+        return userAccount
+    }
+    async findByAppUserAndEmployerCardId(user_id: string, employer_card_id: string): Promise<AppUserAccountsResponse | null> {
+        const userAccount = await prismaClient.appUserAccounts.findFirst({
+            where:{
+                app_user_id: user_id,
+                employer_cards_id: employer_card_id
+                
             },
             include:{
                 AppUserAuth: true,

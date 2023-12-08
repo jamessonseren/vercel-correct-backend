@@ -34,32 +34,32 @@ export class CreatePartnerCardsUsecase {
         return hireCard
     }
 
-    private async endDayCycle(start_day: number) {
-        let currentDate = new Date()
-        let currentMonth = currentDate.getMonth() + 1
-        let currentYear = currentDate.getFullYear() + 1
+    // private async endDayCycle(start_day: number) {
+    //     let currentDate = new Date()
+    //     let currentMonth = currentDate.getMonth() + 1
+    //     let currentYear = currentDate.getFullYear() + 1
 
-        let end_day
+    //     let end_day
 
-        let monthsWith30Days = [4, 6, 9, 11]
+    //     let monthsWith30Days = [4, 6, 9, 11]
 
-        if (monthsWith30Days.includes(currentMonth)) {
-            end_day = start_day + 29
-        } else if (currentMonth === 2) {
+    //     if (monthsWith30Days.includes(currentMonth)) {
+    //         end_day = start_day + 29
+    //     } else if (currentMonth === 2) {
 
-            if ((currentYear % 4 == 0 && currentYear % 100 != 0) || currentYear % 400 == 0) {
-                end_day = start_day + 28
-            } else {
-                end_day = start_day + 27
-            }
-        } else{
-            end_day = start_day + 30
-        }
+    //         if ((currentYear % 4 == 0 && currentYear % 100 != 0) || currentYear % 400 == 0) {
+    //             end_day = start_day + 28
+    //         } else {
+    //             end_day = start_day + 27
+    //         }
+    //     } else{
+    //         end_day = start_day + 30
+    //     }
 
-        if(end_day > 31){
-            end_day = end_day - 31
-        }
+    //     if(end_day > 31){
+    //         end_day = end_day - 31
+    //     }
 
-        return end_day
-    }
+    //     return end_day
+    // }
 }

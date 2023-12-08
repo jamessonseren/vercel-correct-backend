@@ -5,6 +5,8 @@ import { IAppUserAccountRepository } from "../../repositories/app-user-account.r
 import { IEmployercardRepository } from "../../../../Cards/EmployerCards/repositories/employer-card.repository";
 import { AppUserAccountsProps } from "../../entities/appUserAccounts.entity";
 import { CreateAppUserAccountUsecase } from "./create-app-user-account.usecase";
+import { IAppUserRepository } from "../../../../AppUser/UserByCorrect/repositories/app-user-data-repostory";
+import { ICompanyTypeRepository } from "../../../../Company/CompanyType/repositories/company-type.repository";
 
 
 export class CreateAppUserAccountController{
@@ -13,7 +15,10 @@ export class CreateAppUserAccountController{
         private appUserAuthRepository: IAppUserAuthRepository,
         private cardsRepository: ICards,
         private appUserAccountRepository: IAppUserAccountRepository,
-        private employerCardsRepository: IEmployercardRepository
+        private employerCardsRepository: IEmployercardRepository,
+        private appUserDataRepository: IAppUserRepository,
+        private companyTypeRepository: ICompanyTypeRepository
+
 
     ){}
 
@@ -29,7 +34,10 @@ export class CreateAppUserAccountController{
                 this.appUserAuthRepository,
                 this.cardsRepository,
                 this.appUserAccountRepository,
-                this.employerCardsRepository
+                this.employerCardsRepository,
+                this.appUserDataRepository,
+                this.companyTypeRepository
+                
             )
 
                 const userAccounts = await userAccountsUsecase.execute(data)

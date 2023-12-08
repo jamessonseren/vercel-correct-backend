@@ -9,6 +9,7 @@ import { IAppUserRepository } from "../repositories/app-user-data-repostory";
 
 type AppUserRequest = {
     internal_company_code: string | null
+    company_owner: boolean
     full_name: string
     gender: string
     rg: string | null
@@ -54,10 +55,11 @@ export class CreateAppUserByCorrectUsecase {
                 .on('data', async (data) => {
                     try{
                     // All csv header title must be in this condition
-                    if (data['\ufeffcodigo_interno'] && data['nome_completo'] && data['sexo'] && data['rg'] && data['cpf'] && data['data_nascimento'] && data['estado_civil'] && data['total_dependentes'] && data['cargo']) {
+                    if (data['\ufeffcodigo_interno'] && data['company_owner'] && data['nome_completo'] && data['sexo'] && data['rg'] && data['cpf'] && data['data_nascimento'] && data['estado_civil'] && data['total_dependentes'] && data['cargo']) {
 
                         // Process CSV data
                         const internal_company_code = await data['\ufeffcodigo_interno'];
+                        const company_owner = JSON.parse(await data['company_owner']);
                         const full_name = await data['nome_completo'];
                         const gender = await data['sexo'];
                         const rg = await data['rg'];
@@ -69,6 +71,7 @@ export class CreateAppUserByCorrectUsecase {
 
                         const userDataFromCSV: AppUserRequest = {
                             internal_company_code,
+                            company_owner,
                             full_name,
                             gender,
                             rg,
@@ -97,6 +100,7 @@ export class CreateAppUserByCorrectUsecase {
                     for (const user of results) {
                         const data: AppUserProps = {
                             internal_company_code: user.internal_company_code,
+                            company_owner: user.company_owner,
                             full_name: user.full_name,
                             gender: user.gender,
                             rg: user.rg,

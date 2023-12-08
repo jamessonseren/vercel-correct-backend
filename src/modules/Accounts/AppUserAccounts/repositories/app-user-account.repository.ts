@@ -30,6 +30,7 @@ export interface IAppUserAccountRepository{
     findById(id: string): Promise<AppUserAccountsEntity | null>
     findByAccountNumber(id: string): Promise<AppUserAccountsEntity | null>
     findByEmployerCardsId(id: string): Promise<AppUserAccountsResponse | null>
+    findByAppUserAndEmployerCardId(user_id: string, employer_card_id: string): Promise<AppUserAccountsResponse | null>
     findByAppUserId(id: string): Promise<AppUserAccountsResponse | null>
     save(data: AppUserAccountsEntity): Promise<AppUserAccountsResponse>
 }

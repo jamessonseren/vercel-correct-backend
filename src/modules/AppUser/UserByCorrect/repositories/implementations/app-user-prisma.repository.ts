@@ -30,7 +30,9 @@ export class AppUserPrismaRepository implements IAppUserRepository{
             data:{
                 cpf: data.cpf,
                 date_of_birth: data.date_of_birth,
+                company_owner: data.company_owner,
                 full_name: data.full_name,
+                rg: data.rg,
                 gender: data.gender,
                 marital_status: data.marital_status,
                 company_type_id: data.company_type_id,

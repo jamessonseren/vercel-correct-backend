@@ -82,6 +82,7 @@ enum CompanyTypeOptions {
 model AppUserData {
   id                    String   @id @default(uuid())
   internal_company_code String?
+  company_owner         Boolean  @default(false)
   full_name             String
   gender                String
   rg                    String?  @unique
@@ -210,6 +211,7 @@ model AppUserAccounts {
 
   @@map("app_user_accounts")
 }
+
 
 // model MovimentacoeslucroCorrect {
 //   id                             String          @id @default(uuid())

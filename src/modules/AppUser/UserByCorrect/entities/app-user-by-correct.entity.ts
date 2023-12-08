@@ -3,6 +3,7 @@ import { CustomError } from '../../../../errors/custom.error'
 
 export type AppUserProps = {
     internal_company_code: string | null
+    company_owner: boolean
     full_name: string
     gender: string
     rg: string | null
@@ -20,6 +21,7 @@ export type AppUserProps = {
 export class AppUserbyCorrectEntity{
     id: string
     internal_company_code: string | null
+    company_owner: boolean
     full_name: string
     gender: string
     rg: string | null
@@ -45,6 +47,7 @@ export class AppUserbyCorrectEntity{
 
         this.id = randomUUID()
         this.internal_company_code = props.internal_company_code
+        this.company_owner = props.company_owner
         this.full_name = props.full_name
         this.gender = props.gender
         this.rg = props.rg
