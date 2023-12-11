@@ -25,10 +25,10 @@ export class CreateEmployerCardUsecase{
         const findCompanyType = await this.companyTypeRepository.findByCompanyAdminId(companyAdminId)
         if (!findCompanyType) throw new CustomError("Company type must be registered first", 400)
 
-    
         //check if card is already hired
-        const findBycardId = await this.employerCardRepository.findByCardId(data.card_id)
+        const findBycardId = await this.employerCardRepository.findByCardIdAndCompanyTypeId(data.card_id, findCompanyType.id)
         if (findBycardId) throw new CustomError("Card is already hired", 409)
+
 
         //if everything is ok - set company_type_id
         employerCard.company_type_id = findCompanyType.id

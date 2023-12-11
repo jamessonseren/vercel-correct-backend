@@ -32,4 +32,9 @@ export class CompanyTypeMemoryRepository implements ICompanyTypeRepository{
 
     }
 
+    async findByCNPJ(cnpj: string): Promise<CompanyTypeEntity | null> {
+
+        return this.items.find(company => company.cnpj === cnpj) || null
+    }
+
 }

@@ -35,8 +35,7 @@ export class CreateAppUserByCorrectUsecase {
 
         if (!findCompany) throw new CustomError("Company Type must be registered", 401)
 
-        if (findCompany.type === 'comercio' || findCompany.type === "autonomo_comercio") throw new CustomError("Invalid Company type!", 401)
-
+        // if (findCompany.type === 'comercio' || findCompany.type === "autonomo_comercio") throw new CustomError("Invalid Company type!", 401)
         
         return await this.readCSV(filePath, company_type_id, correct_admin_id)
         

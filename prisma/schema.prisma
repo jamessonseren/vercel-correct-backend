@@ -64,10 +64,11 @@ model CompanyType {
   cnpj             String             @unique
   company_admin_id String
 
-  CompanyAdmin  CompanyAdmin    @relation(fields: [company_admin_id], references: [id])
-  AppUserData   AppUserData[]
-  PartnerCards  PartnerCards[]
-  EmployerCards EmployerCards[]
+  CompanyAdmin         CompanyAdmin           @relation(fields: [company_admin_id], references: [id])
+  AppUserData          AppUserData[]
+  PartnerCards         PartnerCards[]
+  EmployerCards        EmployerCards[]
+  CompanyBusinessCards CompanyBusinessCards[]
 
   @@map("company_type")
 }
@@ -82,10 +83,11 @@ enum CompanyTypeOptions {
 model AppUserData {
   id                    String   @id @default(uuid())
   internal_company_code String?
+  employee              Boolean  @default(false)
   company_owner         Boolean  @default(false)
   full_name             String
   gender                String
-  rg                    String?  @unique
+  rg                    String?
   cpf                   String   @unique
   driver_license        String?  @unique
   date_of_birth         DateTime
@@ -151,10 +153,11 @@ model Cards {
 
   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
 
-  created_at    DateTime?       @default(now())
-  updated_at    DateTime?       @updatedAt
-  PartnerCards  PartnerCards[]
-  EmployerCards EmployerCards[]
+  created_at           DateTime?              @default(now())
+  updated_at           DateTime?              @updatedAt
+  PartnerCards         PartnerCards[]
+  EmployerCards        EmployerCards[]
+  CompanyBusinessCards CompanyBusinessCards[]
 
   @@map("cards")
 }
@@ -165,17 +168,17 @@ enum CardType {
 }
 
 model PartnerCards {
-  id                 String  @id @default(uuid())
-  contract_number    String  @unique @default(uuid())
+  id                 String    @id @default(uuid())
+  contract_number    String    @unique @default(uuid())
   card_id            String
   company_type_id    String
-  // start_day_cycle    Int
-  // end_day_cycle      Int?    @default(30)
   adm_correct_fee    Float
   mkt_correct_fee    Float
-  total_installments Int     @default(1)
+  total_installments Int       @default(1)
   cashback           Float
-  validate           Boolean @default(false)
+  validate           Boolean   @default(false)
+  created_at         DateTime? @default(now())
+  updated_at         DateTime? @updatedAt
 
   Cards       Cards       @relation(fields: [card_id], references: [id])
   CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
@@ -184,10 +187,12 @@ model PartnerCards {
 }
 
 model EmployerCards {
-  id              String @id @default(uuid())
-  contract_number String @unique @default(uuid())
-  card_id         String
+  id              String    @id @default(uuid())
+  contract_number String    @unique @default(uuid())
+  card_id         String    @unique
   company_type_id String
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
 
   Cards           Cards             @relation(fields: [card_id], references: [id])
   CompanyType     CompanyType       @relation(fields: [company_type_id], references: [id])
@@ -212,6 +217,24 @@ model AppUserAccounts {
   @@map("app_user_accounts")
 }
 
+model CompanyBusinessCards {
+  id                 String    @id @default(uuid())
+  contract_number    String    @unique @default(uuid())
+  card_id            String
+  company_type_id    String
+  adm_correct_fee    Float     @default(0)
+  mkt_correct_fee    Float     @default(0)
+  total_installments Int       @default(1)
+  cashback           Float     @default(0)
+  validate           Boolean   @default(false)
+  created_at         DateTime? @default(now())
+  updated_at         DateTime? @updatedAt
+
+  Cards       Cards       @relation(fields: [card_id], references: [id])
+  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+
+  @@map("company_business_cards")
+}
 
 // model MovimentacoeslucroCorrect {
 //   id                             String          @id @default(uuid())

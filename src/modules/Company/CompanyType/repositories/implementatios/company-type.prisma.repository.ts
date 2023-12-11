@@ -38,4 +38,12 @@ export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
             }
         })
     }
+
+    async findByCNPJ(cnpj: string): Promise<CompanyTypeEntity | null>{
+        return await prismaClient.companyType.findUnique({
+            where:{
+                cnpj
+            }
+        })
+    }
 }

@@ -53,4 +53,15 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
         return companyData
     }
 
+    async findByCorrectAdminAndCnpj(correct_admin_id: string, cnpj: string): Promise<CompanyDataEntity | null> {
+        const companyData = await prismaClient.companyData.findFirst({
+            where:{
+                correct_admin_id: correct_admin_id,
+                cnpj
+            }
+        })
+
+        return companyData
+    }
+
 }

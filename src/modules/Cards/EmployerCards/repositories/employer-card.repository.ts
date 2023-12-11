@@ -10,7 +10,7 @@ export type EmployerCardsResponse = {
     }
 }
 export interface IEmployercardRepository {
-    findByCardId(id: string): Promise<EmployerCardsResponse | null>
+    findByCardIdAndCompanyTypeId(id: string, company_type_id: string): Promise<EmployerCardsResponse | null>
     findByCompanyType(company_type_id: string): Promise<EmployerCardsResponse[] | null>
     findByContractNumber(contract_number: string): Promise<EmployerCardsResponse | null>
     save(data: EmployerCardsProps): Promise<EmployerCardsEntity>

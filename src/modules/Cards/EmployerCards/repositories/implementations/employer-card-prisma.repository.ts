@@ -4,10 +4,11 @@ import { EmployerCardsResponse, IEmployercardRepository } from "../employer-card
 
 export class EmployerCardsPrismaRepository implements IEmployercardRepository{
 
-    async findByCardId(id: string): Promise<EmployerCardsResponse | null> {
+    async findByCardIdAndCompanyTypeId(id: string, company_type_id: string): Promise<EmployerCardsResponse | null> {
         const employerCard = await prismaClient.employerCards.findFirst({
             where:{
-                card_id: id
+                card_id: id,
+                company_type_id
             },
             include:{
                 Cards: true

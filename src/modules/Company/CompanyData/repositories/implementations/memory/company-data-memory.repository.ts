@@ -1,3 +1,4 @@
+import { CustomError } from "../../../../../../errors/custom.error";
 import { CompanyDataEntity } from "../../../../CompanyData/entities/company-data.entity";
 import { ICompanyDataRepository } from "../../../../CompanyData/repositories/company-data.repository";
 
@@ -35,5 +36,10 @@ export class CompanyDataMemoryRepository implements ICompanyDataRepository{
     async findByCompanyAdmin(id: string): Promise<CompanyDataEntity | null> {
         return this.items.find(  item => item.id === id) || null
     }
+
+    findByCorrectAdminAndCnpj(correct_admin_id: string, cnpj: string): Promise<CompanyDataEntity | null> {
+        throw new CustomError("Method not implemented.", 401);
+    }
+
 
 }
