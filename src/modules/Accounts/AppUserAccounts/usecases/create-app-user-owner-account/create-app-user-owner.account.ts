@@ -11,12 +11,12 @@ export class CreateAppUserOwnerAccountUsecase {
         private appUserAccountRepository: IAppUserAccountRepository
     ) { }
 
-    async execute(companyTypeId: string, appUserAccount: AppUserAccountsEntity, app_user_id: string) {
+    async execute(companyTypeId: string | null, appUserAccount: AppUserAccountsEntity, app_user_id: string) {
 
         //if appuser is the company user, check what type of company (employer | partner | employer_partner | individual_partner)
         // const companyOwnerType = await this.companyTypeRepository.findById(companyTypeId)
         // if (!companyOwnerType) throw new CustomError("Unable to find company type associated!", 400)
-
+        if(!companyTypeId) return
         //check all available cards for this appuser
         const findAvailableCards = await this.employerCardsRepository.findByCompanyType(companyTypeId)
         if (!findAvailableCards) throw new CustomError("Unable to find available cards - Please check company type ID.", 401)

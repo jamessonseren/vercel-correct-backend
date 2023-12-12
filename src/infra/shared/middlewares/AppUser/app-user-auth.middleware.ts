@@ -18,14 +18,14 @@ export const appUserIsAuth = async (req: Request, res: Response, next: NextFunct
     })
 
     const verifyToken = new AppUserJWToken().validate(token)
-
+   
     if (verifyToken) {
         req.appUserId = verifyToken.sub
 
         const appUserAuthRepository = new AppUserAuthPrismaRepository()
         const ensureValidAAppUser = new EnsureValidAppUserController(appUserAuthRepository)
+        
         await ensureValidAAppUser.handle(req, res)
-    
         return next()
     }
 

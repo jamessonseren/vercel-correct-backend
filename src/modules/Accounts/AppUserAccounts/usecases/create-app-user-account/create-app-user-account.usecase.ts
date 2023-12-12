@@ -26,7 +26,7 @@ export class CreateAppUserAccountUsecase {
         if (!userDetails) throw new CustomError("Unable to find App User Details - Check User Id", 401)
 
         //check if user has some company associated - if app_user_data_id is null, it means that no company is associated and it is an independent appuser
-        if (userDetails.app_user_data_id === null) {
+        if (userDetails.AppUserData.employee === false) {
 
             //create only debit card for independent user
             const debitCard = await this.cardsRepository.findByName('Debito')

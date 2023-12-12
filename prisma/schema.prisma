@@ -83,7 +83,7 @@ enum CompanyTypeOptions {
 model AppUserData {
   id                    String   @id @default(uuid())
   internal_company_code String?
-  employee              Boolean  @default(false)
+  employee              Boolean  @default(true)
   company_owner         Boolean  @default(false)
   full_name             String
   gender                String
@@ -93,7 +93,7 @@ model AppUserData {
   date_of_birth         DateTime
   function              String?
   salary                Float?
-  company_type_id       String
+  company_type_id       String?
   status                Boolean  @default(true)
   authenticated         Boolean  @default(false)
   marital_status        String
@@ -104,7 +104,7 @@ model AppUserData {
   updated_at DateTime? @updatedAt
 
   CorrectAdmin CorrectAdmin  @relation(fields: [correct_admin_id], references: [id])
-  CompanyType  CompanyType   @relation(fields: [company_type_id], references: [id])
+  CompanyType  CompanyType?   @relation(fields: [company_type_id], references: [id])
   AppUserAuth  AppUserAuth[]
 
   @@map("app_user_data")

@@ -1,14 +1,15 @@
-import { CustomError } from "../../../../errors/custom.error";
-import { ICompanyTypeRepository } from "../../../Company/CompanyType/repositories/company-type.repository";
-import { AppUserProps, AppUserbyCorrectEntity } from "../entities/app-user-by-correct.entity";
 import path from 'path'
 import fs from 'fs'
 import csv from 'csv-parser'
-import { format, parse } from 'date-fns'
-import { IAppUserRepository } from "../repositories/app-user-data-repostory";
+import { parse } from 'date-fns'
+import { IAppUserRepository } from "../../repositories/app-user-data-repostory";
+import { ICompanyTypeRepository } from '../../../../Company/CompanyType/repositories/company-type.repository';
+import { CustomError } from '../../../../../errors/custom.error';
+import { AppUserProps, AppUserDataEntity } from '../../entities/appuser-data.entity';
 
 type AppUserRequest = {
     internal_company_code: string | null
+    employee: boolean
     company_owner: boolean
     full_name: string
     gender: string
@@ -28,7 +29,7 @@ export class CreateAppUserByCorrectUsecase {
 
     async execute(csvFilePath: string, company_type_id: string, correct_admin_id: string) {
 
-        const filePath = path.join(__dirname, '..', '..', '..', '..', 'tmp', csvFilePath);
+        const filePath = path.join(__dirname, '..', '..', '..', '..', '..', 'tmp', csvFilePath);
         if (!fs.existsSync(filePath)) throw new CustomError("File not found", 400);
 
         const findCompany = await this.companyTypeRepository.findById(company_type_id)
@@ -58,6 +59,7 @@ export class CreateAppUserByCorrectUsecase {
 
                         // Process CSV data
                         const internal_company_code = await data['\ufeffcodigo_interno'];
+                        const employee = true;
                         const company_owner = JSON.parse(await data['company_owner']);
                         const full_name = await data['nome_completo'];
                         const gender = await data['sexo'];
@@ -70,6 +72,7 @@ export class CreateAppUserByCorrectUsecase {
 
                         const userDataFromCSV: AppUserRequest = {
                             internal_company_code,
+                            employee,
                             company_owner,
                             full_name,
                             gender,
@@ -99,6 +102,7 @@ export class CreateAppUserByCorrectUsecase {
                     for (const user of results) {
                         const data: AppUserProps = {
                             internal_company_code: user.internal_company_code,
+                            employee: user.employee,
                             company_owner: user.company_owner,
                             full_name: user.full_name,
                             gender: user.gender,
@@ -115,7 +119,7 @@ export class CreateAppUserByCorrectUsecase {
 
                         }
 
-                        const appUser = AppUserbyCorrectEntity.create(data)
+                        const appUser = await AppUserDataEntity.create(data)
 
                         const findUser = await this.appUserRepository.findByCPF(user.cpf)
 

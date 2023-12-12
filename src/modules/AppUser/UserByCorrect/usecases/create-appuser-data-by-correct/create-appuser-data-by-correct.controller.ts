@@ -1,18 +1,16 @@
 import { Request, Response } from "express";
-import { CreateAppUserByCorrectUsecase } from "./create-appuser-by-correct.usecase";
-import { ICompanyTypeRepository } from "../../../Company/CompanyType/repositories/company-type.repository";
-import { IAppUserRepository } from "../repositories/app-user-data-repostory";
+import { ICompanyTypeRepository } from "../../../../Company/CompanyType/repositories/company-type.repository";
+import { IAppUserRepository } from "../../repositories/app-user-data-repostory";
 
-import { CustomError } from "../../../../errors/custom.error";
+import { CustomError } from "../../../../../errors/custom.error";
+import { CreateAppUserByCorrectUsecase } from "./create-appuser-data-by-correct.usecase";
 
 export class CreateAppUserByCorrectController {
     constructor(
         private companyTypeRepository: ICompanyTypeRepository,
         private appUserRepository: IAppUserRepository
 
-    ) {
-
-    }
+    ){}
     async handle(req: Request, res: Response) {
 
         try {

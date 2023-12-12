@@ -1,11 +1,11 @@
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
-import { AppUserbyCorrectEntity } from "../../entities/app-user-by-correct.entity";
-import { AppUserProps } from "../../entities/app-user-by-correct.entity";
+import { AppUserDataEntity } from "../../entities/appuser-data.entity";
+import { AppUserProps } from "../../entities/appuser-data.entity";
 import { IAppUserRepository } from "../app-user-data-repostory";
 
 export class AppUserPrismaRepository implements IAppUserRepository{
-   
-    async findById(id: string): Promise<AppUserbyCorrectEntity | null> {
+    
+    async findById(id: string): Promise<AppUserDataEntity | null> {
         const appUser = await prismaClient.appUserData.findUnique({
             where:{
                 id
@@ -15,10 +15,21 @@ export class AppUserPrismaRepository implements IAppUserRepository{
         return appUser || null
     }
 
-    async findByCPF(cpf: string): Promise<AppUserbyCorrectEntity | null> {
+    async findByCPF(cpf: string): Promise<AppUserDataEntity | null> {
         const appUser = await prismaClient.appUserData.findUnique({
             where:{
                 cpf
+            }
+        })
+
+        return appUser || null
+    }
+
+    async findByCPFEmployee(cpf: string): Promise<AppUserDataEntity | null> {
+        const appUser = await prismaClient.appUserData.findFirst({
+            where:{
+                cpf,
+                employee: true
             }
         })
 
@@ -29,6 +40,7 @@ export class AppUserPrismaRepository implements IAppUserRepository{
         return await prismaClient.appUserData.create({
             data:{
                 cpf: data.cpf,
+                employee: data.employee,
                 date_of_birth: data.date_of_birth,
                 company_owner: data.company_owner,
                 full_name: data.full_name,
@@ -42,5 +54,7 @@ export class AppUserPrismaRepository implements IAppUserRepository{
         })
 
     }
+
+    
 
 }

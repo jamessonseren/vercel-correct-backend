@@ -20,20 +20,55 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
         const appUser = await prismaClient.appUserAuth.findUnique({
             where:{
                 cpf
+            },
+            include:{
+                AppUserData:{
+                    select:{
+                        company_type_id: true,
+                        employee: true
+                    }
+                }
             }
         })
 
-        return appUser
+        if(appUser === null) return null
+        console.log({appUser})
+        return {
+            ...appUser,
+            AppUserData: appUser.AppUserData
+                ? {
+                    company_type_id: appUser.AppUserData.company_type_id,
+                    employee: appUser.AppUserData.employee
+                }
+                : null
+        } as AppUserResponse;
     }
 
     async findByemail(email: string): Promise<AppUserAuthResponse | null> {
         const appUser = await prismaClient.appUserAuth.findUnique({
             where:{
                 email
+            },
+            include:{
+                AppUserData:{
+                    select:{
+                        company_type_id: true,
+                        employee: true
+                    }
+                }
             }
         })
+        if(appUser === null) return null
 
-        return appUser
+        return {
+            ...appUser,
+            AppUserData: appUser.AppUserData
+                ? {
+                    company_type_id: appUser.AppUserData.company_type_id,
+                    employee: appUser.AppUserData.employee
+                }
+                : null
+        } as AppUserResponse;
     }
 
     async findById(id: string): Promise<AppUserResponse | null> {
@@ -44,20 +79,24 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
             include:{
                 AppUserData:{
                     select:{
-                        company_type_id: true
+                        company_type_id: true,
+                        employee: true
                     }
                 }
             }
         })
-
+        
         if(appUser === null) return null
 
         return {
             ...appUser,
-            AppUserData: {
-                company_type_id: appUser.AppUserData!.company_type_id
-            },
-        }
+            AppUserData: appUser.AppUserData
+                ? {
+                    company_type_id: appUser.AppUserData.company_type_id,
+                    employee: appUser.AppUserData.employee
+                }
+                : null
+        } as AppUserResponse;
     }
     async saveNewUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
         const appUser = await prismaClient.appUserAuth.create({
@@ -71,11 +110,26 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
                 id: true,
                 cpf: true,
                 email: true,
-                app_user_data_id: true
+                app_user_data_id: true,
+                AppUserData:{
+                    select:{
+                        company_type_id: true,
+                        employee: true
+                    }
+                }
+                
             }
         })
 
-        return appUser
+        return {
+            ...appUser,
+            AppUserData: appUser.AppUserData
+                ? {
+                    company_type_id: appUser.AppUserData.company_type_id,
+                    employee: appUser.AppUserData.employee
+                }
+                : null
+        } as AppUserResponse;
     }
 
     async saveRegisteredUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
@@ -90,11 +144,26 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
                 id: true,
                 cpf: true,
                 email: true,
-                app_user_data_id: true
+                app_user_data_id: true,
+                AppUserData:{
+                    select:{
+                        company_type_id: true,
+                        employee: true
+                    }
+                }
             }
         })
 
-        return appUser
+       
+        return {
+            ...appUser,
+            AppUserData: appUser.AppUserData
+                ? {
+                    company_type_id: appUser.AppUserData.company_type_id,
+                    employee: appUser.AppUserData.employee
+                }
+                : null
+        } as AppUserResponse;
     }
 
 }

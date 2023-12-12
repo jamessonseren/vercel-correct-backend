@@ -3,6 +3,7 @@ import { CustomError } from '../../../../errors/custom.error'
 
 export type AppUserProps = {
     internal_company_code: string | null
+    employee: boolean
     company_owner: boolean
     full_name: string
     gender: string
@@ -12,15 +13,16 @@ export type AppUserProps = {
     date_of_birth: Date
     function: string | null
     salary: number | null
-    company_type_id: string
+    company_type_id: string | null
     dependents_quantity: number
     marital_status: string
     correct_admin_id: string
 }
 
-export class AppUserbyCorrectEntity{
+export class AppUserDataEntity{
     id: string
     internal_company_code: string | null
+    employee: boolean
     company_owner: boolean
     full_name: string
     gender: string
@@ -30,7 +32,7 @@ export class AppUserbyCorrectEntity{
     date_of_birth: Date
     function: string | null
     salary: number | null
-    company_type_id: string
+    company_type_id: string | null
     marital_status: string
     dependents_quantity: number
     correct_admin_id: string
@@ -40,13 +42,11 @@ export class AppUserbyCorrectEntity{
         if(!props.gender) throw new CustomError("Gender is required", 401)
         if(!props.cpf) throw new CustomError("CPF is required", 401)
         if(!props.date_of_birth) throw new CustomError("Date of birth is required", 401)
-        if(!props.company_type_id) throw new CustomError("Company Id is required", 401)
         if(!props.correct_admin_id) throw new CustomError("Correct Admin ID is required", 401)
-
-
 
         this.id = randomUUID()
         this.internal_company_code = props.internal_company_code
+        this.employee = props.employee
         this.company_owner = props.company_owner
         this.full_name = props.full_name
         this.gender = props.gender
@@ -62,8 +62,8 @@ export class AppUserbyCorrectEntity{
         this.correct_admin_id = props.correct_admin_id
     }
 
-    static create(data: AppUserProps){
-        const appUser = new AppUserbyCorrectEntity(data)
+    static async create(data: AppUserProps){
+        const appUser = new AppUserDataEntity(data)
         return appUser
     }
 }

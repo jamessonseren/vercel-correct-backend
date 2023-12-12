@@ -5,7 +5,11 @@ export type AppUserAuthResponse = {
     cpf: string,
     email: string,
     app_user_data_id: string | null,
-    
+    AppUserData:{
+        company_type_id: string,
+        employee: boolean
+    }
+       
 }
 
 export type AppUserResponse = {
@@ -15,7 +19,8 @@ export type AppUserResponse = {
     password: string
     app_user_data_id: string | null
     AppUserData:{
-        company_type_id: string
+        company_type_id: string,
+        employee: boolean
     }
     
 }

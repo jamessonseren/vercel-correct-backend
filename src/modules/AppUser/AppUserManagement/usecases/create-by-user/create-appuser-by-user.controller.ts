@@ -19,7 +19,7 @@ export class CreateAppUserByUserController{
             this.appUserAuthRepository,
             this.appUserDataRepository
         )
-
+        
         const user = await appUserAuthUsecase.execute(data)
 
         return res.json(user)
