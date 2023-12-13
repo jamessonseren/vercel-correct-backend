@@ -28,10 +28,7 @@ export class AppUserAuthMemoryRepository implements IAppUserAuthRepository{
 
     async saveRegisteredUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
         this.items.push(data)
-        return {
-            ...data,
-            app_user_data_id: data.app_user_data_id
-        }
+        return data
     }
 
 }

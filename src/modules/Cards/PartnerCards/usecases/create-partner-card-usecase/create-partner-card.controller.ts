@@ -4,12 +4,14 @@ import { ICompanyTypeRepository } from "../../../../Company/CompanyType/reposito
 import { ICompanyDataRepository } from "../../../../Company/CompanyData/repositories/company-data.repository";
 import { PartnerCardsProps } from "../../entities/partner-cards.entity";
 import { CreatePartnerCardsUsecase } from "./create-partner-card.usecase";
+import { ICards } from "../../../CardsByCorrect/repositories/cards-repository";
 
 export class CreatePartnerCardController {
     constructor(
         private partnerCardRepository: IPartnerCardRepository,
         private companyTypeRepository: ICompanyTypeRepository,
-        private companyDataRepository: ICompanyDataRepository
+        private companyDataRepository: ICompanyDataRepository,
+        private cards: ICards
     ) { }
 
     async handle(req: Request, res: Response) {
@@ -24,7 +26,8 @@ export class CreatePartnerCardController {
             const partnerCardUsecase = new CreatePartnerCardsUsecase(
                 this.partnerCardRepository,
                 this.companyTypeRepository,
-                this.companyDataRepository
+                this.companyDataRepository,
+                this.cards
             )
 
             const partnerCard = await partnerCardUsecase.execute(data, company_admin_id)

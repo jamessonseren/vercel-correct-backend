@@ -21,82 +21,53 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
             where:{
                 cpf
             },
-            include:{
-                AppUserData:{
-                    select:{
-                        company_type_id: true,
-                        employee: true
-                    }
-                }
+            select:{
+                id: true,
+                cpf: true,
+                email: true
+                
             }
         })
 
         if(appUser === null) return null
-        console.log({appUser})
-        return {
-            ...appUser,
-            AppUserData: appUser.AppUserData
-                ? {
-                    company_type_id: appUser.AppUserData.company_type_id,
-                    employee: appUser.AppUserData.employee
-                }
-                : null
-        } as AppUserResponse;
-    }
+        
+        return appUser
+}
 
     async findByemail(email: string): Promise<AppUserAuthResponse | null> {
         const appUser = await prismaClient.appUserAuth.findUnique({
             where:{
                 email
             },
-            include:{
-                AppUserData:{
-                    select:{
-                        company_type_id: true,
-                        employee: true
-                    }
-                }
+            select:{
+                id: true,
+                cpf: true,
+                email: true
+                
             }
         })
-        if(appUser === null) return null
 
-        return {
-            ...appUser,
-            AppUserData: appUser.AppUserData
-                ? {
-                    company_type_id: appUser.AppUserData.company_type_id,
-                    employee: appUser.AppUserData.employee
-                }
-                : null
-        } as AppUserResponse;
-    }
+        if(appUser === null) return null
+        
+        return appUser
+}
 
     async findById(id: string): Promise<AppUserResponse | null> {
         const appUser = await prismaClient.appUserAuth.findUnique({
             where:{
                 id
             },
-            include:{
-                AppUserData:{
-                    select:{
-                        company_type_id: true,
-                        employee: true
-                    }
-                }
+            select:{
+                id: true,
+                cpf: true,
+                email: true
+                
             }
         })
-        
-        if(appUser === null) return null
 
-        return {
-            ...appUser,
-            AppUserData: appUser.AppUserData
-                ? {
-                    company_type_id: appUser.AppUserData.company_type_id,
-                    employee: appUser.AppUserData.employee
-                }
-                : null
-        } as AppUserResponse;
+        if(appUser === null) return null
+        
+        return appUser as AppUserResponse
     }
     async saveNewUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
         const appUser = await prismaClient.appUserAuth.create({
@@ -109,27 +80,11 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
             select:{
                 id: true,
                 cpf: true,
-                email: true,
-                app_user_data_id: true,
-                AppUserData:{
-                    select:{
-                        company_type_id: true,
-                        employee: true
-                    }
-                }
+                email: true
                 
             }
-        })
-
-        return {
-            ...appUser,
-            AppUserData: appUser.AppUserData
-                ? {
-                    company_type_id: appUser.AppUserData.company_type_id,
-                    employee: appUser.AppUserData.employee
-                }
-                : null
-        } as AppUserResponse;
+        })        
+        return appUser
     }
 
     async saveRegisteredUser(data: AppUserByUserEntity): Promise<AppUserAuthResponse> {
@@ -138,32 +93,16 @@ export class AppUserAuthPrismaRepository implements IAppUserAuthRepository{
                 cpf: data.cpf,
                 email: data.email,
                 password: data.password,
-                app_user_data_id: data.app_user_data_id
             },
             select:{
                 id: true,
                 cpf: true,
-                email: true,
-                app_user_data_id: true,
-                AppUserData:{
-                    select:{
-                        company_type_id: true,
-                        employee: true
-                    }
-                }
+                email: true
+                
             }
         })
-
-       
-        return {
-            ...appUser,
-            AppUserData: appUser.AppUserData
-                ? {
-                    company_type_id: appUser.AppUserData.company_type_id,
-                    employee: appUser.AppUserData.employee
-                }
-                : null
-        } as AppUserResponse;
+        
+        return appUser
     }
 
 }

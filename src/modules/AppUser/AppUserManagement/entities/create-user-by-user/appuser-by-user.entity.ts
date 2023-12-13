@@ -6,14 +6,12 @@ export type IAuthAppUserProps = {
     cpf: string
     email: string
     password: string
-    app_user_data_id: string | null
 }
 export class AppUserByUserEntity{
     id: string
     cpf: string
     email: string
     password: string
-    app_user_data_id: string | null
 
     private constructor(props: IAuthAppUserProps){
         if(!props.cpf) throw new CustomError("CPF is required", 401)
@@ -24,7 +22,6 @@ export class AppUserByUserEntity{
         this.cpf = props.cpf
         this.email = props.email
         this.password = props.password
-        this.app_user_data_id = props.app_user_data_id
     }
     
     static async create(data: IAuthAppUserProps){

@@ -13,10 +13,9 @@ export class CreateAppUserOwnerAccountUsecase {
 
     async execute(companyTypeId: string | null, appUserAccount: AppUserAccountsEntity, app_user_id: string) {
 
-        //if appuser is the company user, check what type of company (employer | partner | employer_partner | individual_partner)
-        // const companyOwnerType = await this.companyTypeRepository.findById(companyTypeId)
-        // if (!companyOwnerType) throw new CustomError("Unable to find company type associated!", 400)
-        if(!companyTypeId) return
+        //if there is no company type ID, it means that there was some mistake in another module
+        if (!companyTypeId) return
+
         //check all available cards for this appuser
         const findAvailableCards = await this.employerCardsRepository.findByCompanyType(companyTypeId)
         if (!findAvailableCards) throw new CustomError("Unable to find available cards - Please check company type ID.", 401)
@@ -29,19 +28,26 @@ export class CreateAppUserOwnerAccountUsecase {
 
             //check if user already has card
             const findUserCards = await this.appUserAccountRepository.findByAppUserAndEmployerCardId(app_user_id, companyCards.id)
-           
-           
-           //If cards is still no registered, save new card and add to array
+
+
+            //If cards is still no registered, save new card and add to array
             if (!findUserCards) {
+                appUserAccount.available_amount = 0
                 appUserAccount.employer_cards_id = companyCards.id
+                appUserAccount.card_id = companyCards.card_id
+                
+                console.log({ appUserAccount })
                 const newCard = await this.appUserAccountRepository.save(appUserAccount)
 
+                if (newCard.EmployerCards === null) continue
                 //add new cards to newCardsActivated array
-                newCardsActivated.push(newCard.EmployerCards.Cards.card_name)
-            }else{
+                newCardsActivated.push(newCard.Cards.card_name)
+            } else {
+
+                if (findUserCards.EmployerCards === null) continue
 
                 //if it is already registered, add to array
-                cardsAlreadyRegistered.push(findUserCards!.EmployerCards.Cards.card_name)
+                cardsAlreadyRegistered.push(findUserCards.Cards.card_name)
             }
 
 

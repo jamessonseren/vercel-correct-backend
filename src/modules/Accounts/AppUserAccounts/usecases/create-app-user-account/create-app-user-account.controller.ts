@@ -26,7 +26,7 @@ export class CreateAppUserAccountController{
         
         try{
 
-            const data = req.body
+            const data: AppUserAccountsProps = req.body
 
             data.app_user_id = req.appUserId
 

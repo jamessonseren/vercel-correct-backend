@@ -29,7 +29,7 @@ export class CreateAppUserByUserUsecase {
         // if employee exists, create user according to registers found - Includes AppUserData FK
         if (employeeUser) {
 
-            const createRegisteredUser = await this.appUserAuthRepository.saveRegisteredUser({ ...appUser, app_user_data_id: employeeUser.id })
+            const createRegisteredUser = await this.appUserAuthRepository.saveRegisteredUser(appUser)
             return createRegisteredUser
 
 

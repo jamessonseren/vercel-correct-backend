@@ -1,6 +1,7 @@
 import { CustomError } from "../../../../../errors/custom.error";
 import { ICompanyDataRepository } from "../../../../Company/CompanyData/repositories/company-data.repository";
 import { ICompanyTypeRepository } from "../../../../Company/CompanyType/repositories/company-type.repository";
+import { ICards } from "../../../CardsByCorrect/repositories/cards-repository";
 import { PartnerCardsEntity, PartnerCardsProps } from "../../entities/partner-cards.entity";
 import { IPartnerCardRepository } from "../../repositories/partner-card.repository";
 
@@ -8,12 +9,17 @@ export class CreatePartnerCardsUsecase {
     constructor(
         private partnerCardRepository: IPartnerCardRepository,
         private companyTypeRepository: ICompanyTypeRepository,
-        private companyDataRepository: ICompanyDataRepository
+        private companyDataRepository: ICompanyDataRepository,
+        private cards: ICards
     ) { }
 
     async execute(data: PartnerCardsProps, companyAdminId: string) {
 
         const partnerCard = await PartnerCardsEntity.create(data)
+
+        //get Cards
+        const cards = await this.cards.findById(data.card_id)
+        if(!cards) throw new CustomError("Card not found - check Card ID", 400)
 
         //check if company data is already registered
         const findCompanyData = await this.companyDataRepository.findByCompanyAdmin(companyAdminId)
@@ -29,9 +35,14 @@ export class CreatePartnerCardsUsecase {
 
         partnerCard.company_type_id = findCompanyType.id
 
-        const hireCard = await this.partnerCardRepository.save(partnerCard)
+        if(cards.card_type !== 'pos_pago'){
+            partnerCard.total_installments = 1
+            const hirePrePagoCard = await this.partnerCardRepository.save(partnerCard)
+            return hirePrePagoCard
+        }
 
-        return hireCard
+        const hirePosPagoCard = await this.partnerCardRepository.save(partnerCard)
+            return hirePosPagoCard
     }
 
     // private async endDayCycle(start_day: number) {
