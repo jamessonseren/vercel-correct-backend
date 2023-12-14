@@ -6,6 +6,7 @@ import { companyTypeRouter } from "./CompanyType/company-type.routes";
 import { appUserRouter } from "./AppUser/app-user.routes";
 import { cardsRouter } from "./Cards/cards.routes";
 import { accountsRouter } from "./Accounts/app-user-accounts.routes";
+import { companyUserRouter } from "./CompanySecondaryUser/company-secondary-user.routes";
 
 const router = Router()
 
@@ -16,5 +17,6 @@ router.use(companyTypeRouter)
 router.use(appUserRouter)
 router.use(cardsRouter)
 router.use(accountsRouter)
+router.use(companyUserRouter)
 
 export { router }

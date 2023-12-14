@@ -34,8 +34,9 @@ model CompanyAdmin {
   created_at DateTime? @default(now())
   updated_at DateTime? @updatedAt
 
-  CompanyData CompanyData[]
-  CompanyType CompanyType[]
+  CompanyData          CompanyData[]
+  CompanyType          CompanyType[]
+  CompanySecondaryUser CompanySecondaryUser[]
 
   @@map("company_admin")
 }
@@ -234,6 +235,18 @@ model CompanyBusinessCards {
   CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
 
   @@map("company_business_cards")
+}
+
+model CompanySecondaryUser {
+  id               String @id @default(uuid())
+  cnpj             String
+  user_name        String @unique
+  password         String
+  company_admin_id String
+
+  CompanyAdmin CompanyAdmin @relation(fields: [company_admin_id], references: [id])
+
+  @@map("company_secondary_user")
 }
 
 // model MovimentacoeslucroCorrect {

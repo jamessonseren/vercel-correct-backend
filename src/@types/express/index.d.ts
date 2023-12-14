@@ -5,6 +5,7 @@ declare global {
         interface Request {
             correctAdminId: string,
             companyAdminId: string,
+            companyUserID: string,
             appUserId: string
         }
     }

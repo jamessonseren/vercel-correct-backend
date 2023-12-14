@@ -2,7 +2,7 @@ import { prismaClient } from "../../../../../infra/databases/prisma.config";
 import { CompanyAdminEntity } from "../../entities/company-admin.entity";
 import { ICompanyAdminRepository } from "../company-admin.repository";
 
-export type CompanyAdminResponse = {
+export type  CompanyAdminResponse = {
     id: string,
     fullName: string,
     status: boolean,
