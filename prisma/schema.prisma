@@ -238,15 +238,21 @@ model CompanyBusinessCards {
 }
 
 model CompanySecondaryUser {
-  id               String @id @default(uuid())
+  id               String   @id @default(uuid())
+  user_type        UserType
   cnpj             String
-  user_name        String @unique
+  user_name        String   @unique
   password         String
   company_admin_id String
 
   CompanyAdmin CompanyAdmin @relation(fields: [company_admin_id], references: [id])
 
   @@map("company_secondary_user")
+}
+
+enum UserType {
+  sales
+  ecommerce_admin
 }
 
 // model MovimentacoeslucroCorrect {

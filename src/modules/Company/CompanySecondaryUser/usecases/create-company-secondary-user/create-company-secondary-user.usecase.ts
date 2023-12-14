@@ -15,13 +15,21 @@ export class CreateCompanySecondaryUserUsecase {
         //find company admin to get company CNPJ
         const findCompanyAdminById = await this.companyAdminRepository.findById(data.company_admin_id)
         if(!findCompanyAdminById) throw new CustomError("Admin not found", 400)
+
         data.cnpj = findCompanyAdminById.cnpj
 
-        const user = await CompanySecondaryUserEntity.create(data)
+        //check if user already exists
+        const findUser = await this.companyUserRepository.findByUsernameAuth(data.user_name)
+        if(!findUser || findUser.cnpj === data.cnpj){
 
-        const createUser = await this.companyUserRepository.saveOrUpdate(user)
+            const user = await CompanySecondaryUserEntity.create(data)
+    
+            const createUser = await this.companyUserRepository.saveOrUpdate(user)
+    
+            return createUser
+        }
+        if(findUser && findUser.cnpj !== data.cnpj) throw new CustomError("User name is not available", 409)
 
-        return createUser
         
     }
 }

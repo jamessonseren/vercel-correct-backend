@@ -9,7 +9,7 @@ export type CompanySecondaryUserResponse = {
 
 }
 export interface ICompanySecondaryUserRepository{
-    findByIdAuth(id: string): Promise<CompanySecondaryUserEntity | null>
+    findByUsernameAuth(user_name: string): Promise<CompanySecondaryUserEntity | null>
     findById(id: string): Promise<CompanySecondaryUserResponse | null>
     findByCnpjAndUsername(cnpj: string, user_name: string): Promise<CompanySecondaryUserResponse | null>
     saveOrUpdate(data: CompanySecondaryUserEntity): Promise<CompanySecondaryUserResponse>

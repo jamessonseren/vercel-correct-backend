@@ -4,9 +4,9 @@ import { verify } from 'jsonwebtoken';
 import { createHmac } from 'crypto'
 
 import { CompanySecondaryUserEntity } from '../../../../../modules/Company/CompanySecondaryUser/entities/company-secondary-user.entity';
-import { IToken, TokenCompanyUser } from "./token";
+import { IcompanyUserToken, TokenCompanyUser } from "./token";
 
-export class CompanySecondaryUserJWTToken implements IToken {
+export class CompanySecondaryUserJWTToken implements IcompanyUserToken {
     private TOKEN_SECRET = process.env.SECRET_KEY_TOKEN_COMPANY_SECONDARY_USER || ''
 
     private TOKEN_SECRET_CRYPTO = createHmac('sha256', this.TOKEN_SECRET).digest('base64')

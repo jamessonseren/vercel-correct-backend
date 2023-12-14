@@ -4,10 +4,10 @@ import { CompanySecondaryUserResponse, ICompanySecondaryUserRepository } from ".
 
 
 export class CompanySecondaryUserPrismaRepository implements ICompanySecondaryUserRepository{
-    async findByIdAuth(id: string): Promise<CompanySecondaryUserEntity | null> {
+    async findByUsernameAuth(user_name: string): Promise<CompanySecondaryUserEntity | null> {
         const user = await prismaClient.companySecondaryUser.findUnique({
             where:{
-                id
+                user_name: user_name
             }
         })
 
@@ -47,17 +47,18 @@ export class CompanySecondaryUserPrismaRepository implements ICompanySecondaryUs
     async saveOrUpdate(data: CompanySecondaryUserEntity): Promise<CompanySecondaryUserResponse> {
         const user = await prismaClient.companySecondaryUser.upsert({
             where:{
-                user_name: data.user_name
+                user_name: data.user_name,
+                cnpj: data.cnpj
             },
             create:{
                 password: data.password,
+                user_type: data.user_type,
                 cnpj: data.cnpj,
                 user_name: data.user_name,
                 company_admin_id: data.company_admin_id
             },
             update:{
-                password: data.password,
-                cnpj: data.cnpj,
+                password: data.password
             },
             select:{
                 id: true,

@@ -5,7 +5,7 @@ export type TokenCompanyUser = {
     sub: string
 }
 
-export interface IToken{
+export interface IcompanyUserToken{
     create(admin: CompanySecondaryUserEntity):string
     validate(token: string): TokenCompanyUser | null
 }
