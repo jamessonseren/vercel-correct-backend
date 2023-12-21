@@ -21,7 +21,7 @@ export class CreatePartnerCardController {
 
             data.card_id = req.query.cardId as string
             
-            const company_admin_id = req.companyAdminId
+            const company_admin_id = req.companyUserId
 
             const partnerCardUsecase = new CreatePartnerCardsUsecase(
                 this.partnerCardRepository,

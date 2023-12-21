@@ -21,6 +21,7 @@ export class CreateAppUserByUserController{
         )
         
         const user = await appUserAuthUsecase.execute(data)
+        console.log({data})
 
         return res.json(user)
         }catch(err: any){

@@ -18,7 +18,7 @@ export class CompanyDataMemoryRepository implements ICompanyDataRepository{
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
                 phone_2: data.phone_2,
-                company_admin_id: data.company_admin_id,
+                company_user_id: data.company_user_id,
                 correct_admin_id: data.correct_admin_id,
                 id: data.id
             }

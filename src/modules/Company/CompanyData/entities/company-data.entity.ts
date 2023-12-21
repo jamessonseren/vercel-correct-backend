@@ -9,7 +9,7 @@ type CompanyDataProps= {
     total_employees: number;
     phone_1: string;
     phone_2: string | null;
-    company_admin_id: string;
+    company_user_id: string;
     correct_admin_id: string
 }
 
@@ -23,7 +23,7 @@ export class CompanyDataEntity{
     total_employees: number;
     phone_1: string;
     phone_2: string | null;
-    company_admin_id: string;
+    company_user_id: string;
     correct_admin_id: string
 
     private constructor(props: CompanyDataProps){
@@ -43,7 +43,7 @@ export class CompanyDataEntity{
         this.total_employees = props.total_employees
         this.phone_1 = props.phone_1
         this.phone_2 = props.phone_2
-        this.company_admin_id = props.company_admin_id
+        this.company_user_id = props.company_user_id
         this.correct_admin_id = props.correct_admin_id
         
     }

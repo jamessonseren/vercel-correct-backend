@@ -1,7 +1,10 @@
-import { AppUserDataEntity } from "../../entities/appuser-data.entity";
+import { AppUserDataEntity, AppUserProps } from "../../entities/appuser-data.entity";
 import { IAppUserRepository } from "../app-user-data-repostory";
 
 export class AppUserMemoryRepository implements IAppUserRepository {
+    saveOrUpdateByAppUser(data: AppUserProps): Promise<AppUserProps> {
+        throw new Error("Method not implemented.");
+    }
     
 
     items: AppUserDataEntity[] = []

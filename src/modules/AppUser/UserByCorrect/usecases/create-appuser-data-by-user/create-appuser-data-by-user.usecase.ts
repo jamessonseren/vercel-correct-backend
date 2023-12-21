@@ -17,13 +17,13 @@ export class CreateAppUserDataByUserUsecase {
         data.cpf = findUser.cpf
         data.employee = false
 
-        //check if user is already registered
-        const findAppUserData = await this.appUserRepository.findByCPF(data.cpf)
-        if(findAppUserData) throw new CustomError("App User Data already registered", 401)
+        // //check if user is already registered
+        // const findAppUserData = await this.appUserRepository.findByCPF(data.cpf)
+        // if(findAppUserData) throw new CustomError("App User Data already registered", 401)
   
 
         const appUser = await AppUserDataEntity.create(data)
-        const appUserData = await this.appUserRepository.save(appUser)
+        const appUserData = await this.appUserRepository.saveOrUpdateByAppUser(appUser)
 
         return appUserData
     }

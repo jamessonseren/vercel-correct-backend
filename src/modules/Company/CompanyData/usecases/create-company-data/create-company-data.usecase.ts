@@ -1,7 +1,8 @@
 import { CustomError } from "../../../../../errors/custom.error";
 import { CompanyDataEntity } from "../../../CompanyData/entities/company-data.entity";
-import { ICompanyAdminRepository } from "../../../CompanyAdmin/repositories/company-admin.repository";
+import { ICompanyUserRepository } from "../../../CompanyUser/repositories/company-user.repository";
 import { ICompanyDataRepository } from "../../../CompanyData/repositories/company-data.repository";
+import { ICorrectAdminRepository } from "../../../../CorrectAdmin/repositories/correct-admin.repository";
 
 export type CompanyDataRequest = {
     corporate_name: string;
@@ -11,26 +12,28 @@ export type CompanyDataRequest = {
     total_employees: number;
     phone_1: string;
     phone_2: string | null;
-    company_admin_id: string;
+    company_user_id: string;
     correct_admin_id: string
 }
 
 export class CreateCompanyDataUsecase {
     constructor(
         private companyDataRepository: ICompanyDataRepository,
-        private companyAdminRepository: ICompanyAdminRepository
+        private companyUserRepository: ICompanyUserRepository
     ) { }
 
     async execute(data: CompanyDataRequest) {
 
+       
         const companyData = CompanyDataEntity.create(data)
-
-        const companyAdmin = await this.companyAdminRepository.findById(data.company_admin_id)
-
+        
+        const companyUser = await this.companyUserRepository.findById(data.company_user_id)
+    
         //check if user is authorized to carry out
-        if(!companyAdmin) throw new CustomError("User is not allowed to process", 401)
+        if(!companyUser) throw new CustomError("User is not allowed to process", 401)
+
         //check if cnpj informed matches from user
-        if(companyAdmin!.cnpj !== data.cnpj) throw new CustomError("CNPJ must be the same from user", 401)
+        if(companyUser!.cnpj !== data.cnpj) throw new CustomError("CNPJ must be the same from user", 401)
 
         const createData = await this.companyDataRepository.saveOrUpdate(companyData)
 

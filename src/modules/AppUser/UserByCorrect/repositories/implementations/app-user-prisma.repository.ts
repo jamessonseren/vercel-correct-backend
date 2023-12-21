@@ -5,6 +5,7 @@ import { IAppUserRepository } from "../app-user-data-repostory";
 
 export class AppUserPrismaRepository implements IAppUserRepository{
     
+    
     async findById(id: string): Promise<AppUserDataEntity | null> {
         const appUser = await prismaClient.appUserData.findUnique({
             where:{
@@ -53,6 +54,36 @@ export class AppUserPrismaRepository implements IAppUserRepository{
             }
         })
 
+    }
+
+    async saveOrUpdateByAppUser(data: AppUserProps): Promise<AppUserProps> {
+        return await prismaClient.appUserData.upsert({
+            where:{
+                cpf: data.cpf
+            },
+            create:{
+                cpf: data.cpf,
+                employee: data.employee,
+                date_of_birth: data.date_of_birth,
+                company_owner: data.company_owner,
+                full_name: data.full_name,
+                rg: data.rg,
+                gender: data.gender,
+                marital_status: data.marital_status,
+                company_type_id: data.company_type_id,
+                correct_admin_id: data.correct_admin_id,
+                internal_company_code: data.internal_company_code
+            },
+            update:{
+                date_of_birth: data.date_of_birth,
+                company_owner: data.company_owner,
+                full_name: data.full_name,
+                rg: data.rg,
+                gender: data.gender,
+                marital_status: data.marital_status,
+                internal_company_code: data.internal_company_code
+            }
+        })
     }
 
     

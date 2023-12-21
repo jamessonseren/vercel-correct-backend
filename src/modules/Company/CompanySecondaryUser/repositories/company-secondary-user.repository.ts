@@ -1,16 +1,16 @@
-import { CompanySecondaryUserEntity } from "../entities/company-secondary-user.entity";
+// import { CompanySecondaryUserEntity } from "../entities/company-secondary-user.entity";
 
-export type CompanySecondaryUserResponse = {
-    id: string
-    cnpj: string
-    user_name: string
-    company_admin_id: string
+// export type CompanySecondaryUserResponse = {
+//     id: string
+//     cnpj: string
+//     user_name: string
+//     company_admin_id: string
 
 
-}
-export interface ICompanySecondaryUserRepository{
-    findByUsernameAuth(user_name: string): Promise<CompanySecondaryUserEntity | null>
-    findById(id: string): Promise<CompanySecondaryUserResponse | null>
-    findByCnpjAndUsername(cnpj: string, user_name: string): Promise<CompanySecondaryUserResponse | null>
-    saveOrUpdate(data: CompanySecondaryUserEntity): Promise<CompanySecondaryUserResponse>
-}
+// }
+// export interface ICompanySecondaryUserRepository{
+//     findByUsernameAuth(user_name: string): Promise<CompanySecondaryUserEntity | null>
+//     findById(id: string): Promise<CompanySecondaryUserResponse | null>
+//     findByCnpjAndUsername(cnpj: string, user_name: string): Promise<CompanySecondaryUserResponse | null>
+//     saveOrUpdate(data: CompanySecondaryUserEntity): Promise<CompanySecondaryUserResponse>
+// }

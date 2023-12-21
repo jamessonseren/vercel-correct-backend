@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { ICompanyAdminRepository } from "../../../CompanyAdmin/repositories/company-admin.repository";
+import { ICompanyUserRepository } from "../../../CompanyUser/repositories/company-user.repository";
 import { ICompanyDataRepository } from "../../../CompanyData/repositories/company-data.repository";
 import { CompanyDataRequest, CreateCompanyDataUsecase } from "./create-company-data.usecase";
+import { ICorrectAdminRepository } from "../../../../CorrectAdmin/repositories/correct-admin.repository";
 
 export class CreateCompanyDataController {
     constructor(
         private companyDataRepository: ICompanyDataRepository,
-        private companyAdminRepository: ICompanyAdminRepository
+        private companyUserRepository: ICompanyUserRepository
     ){
 
     }
@@ -15,15 +16,15 @@ export class CreateCompanyDataController {
         try{
             const data: CompanyDataRequest = req.body
 
-            const company_admin_id = req.companyAdminId
+            const company_user_id = req.companyUserId
             const correct_admin_id = req.query.correct_admin_id as string
 
             const companyDataUsecase = new CreateCompanyDataUsecase(
                 this.companyDataRepository,
-                this.companyAdminRepository
+                this.companyUserRepository
             )
 
-            const companyData = await companyDataUsecase.execute({...data, company_admin_id, correct_admin_id})
+            const companyData = await companyDataUsecase.execute({...data, company_user_id, correct_admin_id})
             
             return res.json(companyData)
 

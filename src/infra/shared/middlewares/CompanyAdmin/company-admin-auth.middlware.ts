@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { CompanyAdminJWToken } from "../../crypto/token/CompanyAdmin/jwt.token"
-import { CompanyAdminPrismaRepository } from "../../../../modules/Company/CompanyAdmin/repositories/implementations/company-admin.prisma.repository"
-import { EnsureValidCompanyAdminController } from "./ensure-valid-company-auth.controller.middleware"
+import { CompanyUserPrismaRepository } from "../../../../modules/Company/CompanyUser/repositories/implementations/company-user.prisma.repository"
+import { EnsureValidCompanyUserController } from "./ensure-valid-company-auth.controller.middleware"
 
 export const companyIsAuth = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -21,11 +21,12 @@ export const companyIsAuth = async (req: Request, res: Response, next: NextFunct
     const verifyToken = new CompanyAdminJWToken().validate(token)
     
     if (verifyToken) {
-        req.companyAdminId = verifyToken.sub
+        req.companyUserId = verifyToken.sub
+        
 
-        const companyAdminRepository = new CompanyAdminPrismaRepository()
-        const ensureValidAdmin = new EnsureValidCompanyAdminController(companyAdminRepository)
-        await ensureValidAdmin.handle(req, res)
+        const companyUserRepository = new CompanyUserPrismaRepository()
+        const ensureValidUser = new EnsureValidCompanyUserController(companyUserRepository)
+        await ensureValidUser.handle(req, res)
        
         
         return next()

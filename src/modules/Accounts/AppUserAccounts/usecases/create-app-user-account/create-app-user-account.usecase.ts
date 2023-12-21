@@ -47,7 +47,6 @@ export class CreateAppUserAccountUsecase {
             return createCard
             
         } else {
-            console.log({findUserData})
             //if there is a company associated, check if this appuser is the company owner
             if (findUserData.company_owner === true) {
 

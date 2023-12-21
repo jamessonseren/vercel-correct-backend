@@ -1,21 +1,21 @@
-import { ICompanyAdminRepository } from "../../../../modules/Company/CompanyAdmin/repositories/company-admin.repository";
+import { ICompanyUserRepository } from "../../../../modules/Company/CompanyUser/repositories/company-user.repository";
 import { Request, Response } from "express";
-import { EnsureValidCompanyAdminUsecase } from "./ensure-valid-company-admin.usecase.middlware";
+import { EnsureValidCompanyUserUsecase } from "./ensure-valid-company-admin.usecase.middlware";
 
-export class EnsureValidCompanyAdminController{
+export class EnsureValidCompanyUserController{
     constructor(
-        private companyAdminRepository: ICompanyAdminRepository
+        private companyUserRepository: ICompanyUserRepository
 
     ){
     }
     async handle(req: Request, res: Response){
         try{
-            const companyAdminId = req.companyAdminId
-            const validAdminUsecase = new EnsureValidCompanyAdminUsecase(this.companyAdminRepository)
+            const companyUserId = req.companyUserId
+            const validUserUsecase = new EnsureValidCompanyUserUsecase(this.companyUserRepository)
 
-            const admin = await validAdminUsecase.execute(companyAdminId)
+            const user = await validUserUsecase.execute(companyUserId)
 
-            return admin
+            return user
         }catch(err: any){
             return res.status(err.statusCode).json({
                 error: err.message

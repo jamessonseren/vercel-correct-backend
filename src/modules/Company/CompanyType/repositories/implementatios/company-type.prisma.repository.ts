@@ -4,10 +4,10 @@ import { ICompanyTypeRepository } from "../company-type.repository";
 
 export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
    
-    async findByCompanyAdminId(companyAdminId: string): Promise<CompanyTypeEntity | null> {
+    async findByCompanyAdminId(companyUserId: string): Promise<CompanyTypeEntity | null> {
         return await prismaClient.companyType.findFirst({
             where:{
-                company_admin_id: companyAdminId
+                company_user_id: companyUserId
             }
         })
 
@@ -21,7 +21,7 @@ export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
             create:{
                 cnpj: data.cnpj,
                 type: data.type,
-                company_admin_id: data.company_admin_id
+                company_user_id: data.company_user_id
             },
             update:{
                 type: data.type,

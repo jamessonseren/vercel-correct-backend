@@ -19,7 +19,7 @@ export class CreateEmployerCardController{
 
             data.card_id = req.query.cardId as string
 
-            const company_admin_id = req.companyAdminId
+            const company_admin_id = req.companyUserId
 
             const employerCardUsecase = new CreateEmployerCardUsecase(
                 this.employerCardRepository,

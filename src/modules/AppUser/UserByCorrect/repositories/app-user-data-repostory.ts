@@ -5,4 +5,5 @@ export interface IAppUserRepository{
     findByCPF(cpf: string): Promise<AppUserDataEntity | null>
     findByCPFEmployee(cpf: string): Promise<AppUserDataEntity | null>
     save(data: AppUserProps): Promise<AppUserProps>
+    saveOrUpdateByAppUser(data: AppUserProps): Promise<AppUserProps>
 }

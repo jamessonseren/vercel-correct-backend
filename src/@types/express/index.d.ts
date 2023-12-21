@@ -4,8 +4,7 @@ declare global {
     namespace Express {
         interface Request {
             correctAdminId: string,
-            companyAdminId: string,
-            companyUserID: string,
+            companyUserId: string,
             appUserId: string
         }
     }

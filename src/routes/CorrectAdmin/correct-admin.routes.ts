@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { createCorrectAdminController } from "../../modules/CorrectAdmin/useCases";
 import { authAdminController } from "../../modules/CorrectAdmin/useCases/authenticate-admin";
-import { correctIsAuth } from "../../infra/shared/middlewares/CorrectAdmin/correct-admin-auth.middleware";
 
 const correctAdminRouter = Router()
 

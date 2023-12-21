@@ -1,17 +1,17 @@
-import { ICompanyAdminRepository } from "../../../../modules/Company/CompanyAdmin/repositories/company-admin.repository";
+import { ICompanyUserRepository } from "../../../../modules/Company/CompanyUser/repositories/company-user.repository";
 import { CustomError } from "../../../../errors/custom.error";
 
-export class EnsureValidCompanyAdminUsecase {
+export class EnsureValidCompanyUserUsecase {
     constructor(
-        private companyAdminRepository: ICompanyAdminRepository
+        private companyUserRepository: ICompanyUserRepository
     ) { }
     async execute(id: string) {
-        const admin = await this.companyAdminRepository.findById(id)
+        const user = await this.companyUserRepository.findById(id)
 
-        if (!admin) throw new CustomError("User is not allowed to access", 401)
+        if (!user) throw new CustomError("User is not allowed to access", 401)
 
-        if (admin.status === false) throw new CustomError("Admin is not allowed to access", 401)
+        // if (User.client_User === false) throw new CustomError("User is not allowed to access", 401)
 
-        return admin.id
+        return {user}
     }
 }

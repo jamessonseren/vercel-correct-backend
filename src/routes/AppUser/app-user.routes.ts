@@ -12,7 +12,6 @@ const upload = multer(uploadConfig.upload("./tmp"))
 
 const appUserRouter = Router()
 
-
 //Create Appuser by User
 appUserRouter.post('/new-app-user', async (request, response) => {
     await createAppUserByUserController.handle(request, response)
