@@ -10,7 +10,7 @@
     "prisma": "npx prisma migrate dev",
     "pstudio": "npx prisma studio",
     "test": "vitest",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build":"prisma generate npx prisma migrate deploy"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
