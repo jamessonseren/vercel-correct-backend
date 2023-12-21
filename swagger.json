@@ -1,0 +1,64 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Correct App",
+        "description": "Management of Correct payment system",
+        "version": "10.0.0"
+    },
+    "paths": {
+        "/admin": {
+            "post": {
+                "tags": [
+                    "Correct Admin"
+                ],
+                "description": "Correct Admin signup",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CorrectAdminRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description":"Correct administrator created succesfully"
+                    },
+                    "401":{
+                        "description":"Signup failure"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CorrectAdminRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of correct adminitrator",
+                        "example": "admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Email of correct adminitrator",
+                        "example": "admin@admin.com"
+                    },
+                    "userName": {
+                        "type": "string",
+                        "description": "UserName of correct adminitrator",
+                        "example": "admincorrect"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password of correct adminitrator",
+                        "example": "admin123"
+                    }
+                }
+            }
+        }
+    }
+}

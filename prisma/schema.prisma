@@ -1,0 +1,309 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CorrectAdmin {
+  id          String        @id @default(uuid())
+  name        String
+  userName    String        @unique
+  email       String        @unique
+  password    String
+  CompanyData CompanyData[]
+  AppUserData AppUserData[]
+  Cards       Cards[]
+
+  @@map("correct_admin")
+}
+
+enum CompanyPermissions {
+  admin
+  ecommerce
+  sales
+}
+
+model CompanyUser {
+  id           String               @id @default(uuid())
+  email        String?              @unique
+  cnpj         String               @unique
+  user_name    String               @unique
+  password     String
+  fullName     String?
+  permissions  CompanyPermissions[] @default([admin])
+  function     String?
+  client_admin Boolean              @default(false)
+  created_at   DateTime?            @default(now())
+  updated_at   DateTime?            @updatedAt
+
+  CompanyData   CompanyData[]
+  CompanyType   CompanyType[]
+  Product       Product[]
+  Advertisement Advertisement[]
+
+  @@map("company_user")
+}
+
+model CompanyData {
+  id               String  @id @default(uuid())
+  corporate_name   String
+  cnpj             String  @unique
+  cnae_id          String
+  classification   String
+  total_employees  Int
+  phone_1          String
+  phone_2          String?
+  company_user_id  String
+  correct_admin_id String
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+  CompanyUser  CompanyUser  @relation(fields: [company_user_id], references: [id])
+
+  @@map("company_data")
+}
+
+model CompanyType {
+  id              String             @id @default(uuid())
+  type            CompanyTypeOptions
+  cnpj            String             @unique
+  company_user_id String
+
+  CompanyUser          CompanyUser            @relation(fields: [company_user_id], references: [id])
+  AppUserData          AppUserData[]
+  PartnerCards         PartnerCards[]
+  EmployerCards        EmployerCards[]
+  CompanyBusinessCards CompanyBusinessCards[]
+
+  @@map("company_type")
+}
+
+enum CompanyTypeOptions {
+  empregador
+  comercio
+  autonomo_comercio
+  empregador_comercio
+}
+
+model AppUserData {
+  id                    String   @id @default(uuid())
+  internal_company_code String?
+  employee              Boolean  @default(true)
+  company_owner         Boolean  @default(false)
+  full_name             String
+  gender                String
+  rg                    String?
+  cpf                   String   @unique
+  driver_license        String?  @unique
+  date_of_birth         DateTime
+  function              String?
+  salary                Float?
+  company_type_id       String?
+  status                Boolean  @default(true)
+  authenticated         Boolean  @default(false)
+  marital_status        String
+  dependents_quantity   Int      @default(0)
+  correct_admin_id       String
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+  CompanyType  CompanyType? @relation(fields: [company_type_id], references: [id])
+
+  @@map("app_user_data")
+}
+
+model AppUserAuth {
+  id            String  @id @default(uuid())
+  cpf           String  @unique
+  email         String  @unique
+  password      String
+  authenticated Boolean @default(false)
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  AppUserValidationDocument AppUserValidationDocument[]
+  AppUserAccounts           AppUserAccounts[]
+
+  @@map("app_user_auth")
+}
+
+model AppUserValidationDocument {
+  id                        String  @id @default(uuid())
+  face_picture              String
+  document_front_picture    String
+  document_back_picture     String
+  face_and_document_picture String
+  status                    Boolean @default(false)
+  app_user_auth_id          String
+
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+
+  AppUserAuth AppUserAuth @relation(fields: [app_user_auth_id], references: [id])
+
+  @@map("app_user_validation")
+}
+
+model Cards {
+  id               String   @id @default(uuid())
+  card_name        String   @unique
+  card_type        CardType
+  correct_admin_id String
+
+  CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+
+  created_at           DateTime?              @default(now())
+  updated_at           DateTime?              @updatedAt
+  PartnerCards         PartnerCards[]
+  EmployerCards        EmployerCards[]
+  CompanyBusinessCards CompanyBusinessCards[]
+  AppUserAccounts      AppUserAccounts[]
+
+  @@map("cards")
+}
+
+enum CardType {
+  pos_pago
+  pre_pago
+}
+
+model PartnerCards {
+  id                 String    @id @default(uuid())
+  contract_number    String    @unique @default(uuid())
+  card_id            String
+  company_type_id    String
+  adm_correct_fee    Float
+  mkt_correct_fee    Float
+  total_installments Int       @default(1)
+  cashback           Float
+  validate           Boolean   @default(false)
+  created_at         DateTime? @default(now())
+  updated_at         DateTime? @updatedAt
+
+  Cards       Cards       @relation(fields: [card_id], references: [id])
+  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+
+  @@map("partner_cards")
+}
+
+model EmployerCards {
+  id              String    @id @default(uuid())
+  contract_number String    @unique @default(uuid())
+  card_id         String    @unique
+  company_type_id String
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
+
+  Cards           Cards             @relation(fields: [card_id], references: [id])
+  CompanyType     CompanyType       @relation(fields: [company_type_id], references: [id])
+  AppUserAccounts AppUserAccounts[]
+
+  @@map("employer_cards")
+}
+
+model AppUserAccounts {
+  id                String    @id @default(uuid())
+  card_id           String
+  account_number    String    @unique @default(uuid())
+  available_amount  Int
+  employer_cards_id String?
+  app_user_id       String
+  status            Boolean   @default(true)
+  created_at        DateTime? @default(now())
+  updated_at        DateTime? @updatedAt
+
+  EmployerCards EmployerCards? @relation(fields: [employer_cards_id], references: [id])
+  AppUserAuth   AppUserAuth    @relation(fields: [app_user_id], references: [id])
+  Cards         Cards          @relation(fields: [card_id], references: [id])
+
+  @@map("app_user_accounts")
+}
+
+model CompanyBusinessCards {
+  id                 String    @id @default(uuid())
+  contract_number    String    @unique @default(uuid())
+  card_id            String
+  company_type_id    String
+  adm_correct_fee    Float     @default(0)
+  mkt_correct_fee    Float     @default(0)
+  total_installments Int       @default(1)
+  cashback           Float     @default(0)
+  validate           Boolean   @default(false)
+  created_at         DateTime? @default(now())
+  updated_at         DateTime? @updatedAt
+
+  Cards       Cards       @relation(fields: [card_id], references: [id])
+  CompanyType CompanyType @relation(fields: [company_type_id], references: [id])
+
+  @@map("company_business_cards")
+}
+
+// model CompanySecondaryUser {
+//   id               String   @id @default(uuid())
+//   user_permissions String[] @default([])
+//   cnpj             String
+//   user_name        String   @unique
+//   password         String
+//   company_admin_id String
+
+//   CompanyUser CompanyUser @relation(fields: [company_admin_id], references: [id])
+
+//   @@map("company_secondary_user")
+//}
+
+// model Category {
+//   id               String @id @default(uuid())
+//   name             String
+//   correct_admin_id String
+
+//   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
+
+//   @@map("categories")
+// }
+
+model Product {
+  id               String    @id @default(uuid())
+  name             String
+  description      String?
+  banner           String    @default("")
+  category_name    String
+  company_user_id String
+  created_at       DateTime? @default(now())
+  updated_at       DateTime? @updatedAt
+
+  Advertisement Advertisement[]
+
+  CompanyUser CompanyUser @relation(fields: [company_user_id], references: [id])
+
+  @@map("products")
+}
+
+model Advertisement {
+  id               String    @id @default(uuid())
+  name             String
+  description      String?
+  price            Int
+  banner           String    @default("")
+  product_id       String
+  created_at       DateTime? @default(now())
+  updated_at       DateTime? @updatedAt
+  company_user_id String
+
+  Product     Product     @relation(fields: [product_id], references: [id])
+  CompanyUser CompanyUser @relation(fields: [company_user_id], references: [id])
+
+  @@map("advertisements")
+}
