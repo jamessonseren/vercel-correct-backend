@@ -26,7 +26,11 @@ export class ActivateBusinessCardsByCorrectController {
             data.card_id = 'sample_card_id'
             data.total_installments = 0
 
+<<<<<<< HEAD
             const correctAdminId = req.correctAdminId
+=======
+            
+>>>>>>> correct-nodejs-backend/main
 
             const businessCardUsecase = new ActivateBusinessCardsByCorrectUsecase(
                 this.partnerCardRepository,
@@ -36,7 +40,11 @@ export class ActivateBusinessCardsByCorrectController {
                 this.cards
             )
 
+<<<<<<< HEAD
             const activateBusinessCard = await businessCardUsecase.execute(data, correctAdminId, cnpj)
+=======
+            const activateBusinessCard = await businessCardUsecase.execute(data, cnpj)
+>>>>>>> correct-nodejs-backend/main
 
             return res.json(activateBusinessCard)
 

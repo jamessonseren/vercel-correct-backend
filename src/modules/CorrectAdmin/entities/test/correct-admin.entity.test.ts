@@ -8,6 +8,10 @@ describe("Correct Admin Entity", () => {
             name:'Correct Admin',
             userName: 'correct_admin',
             password: 'admin123',
+<<<<<<< HEAD
+=======
+            permissions: ['admin']
+>>>>>>> correct-nodejs-backend/main
         })
     
         expect(correctAdmin).toBeInstanceOf(CorrectAdminEntity)
@@ -21,6 +25,10 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: '',
                 password: 'admin123',
+<<<<<<< HEAD
+=======
+                permissions: ['admin']
+>>>>>>> correct-nodejs-backend/main
             })
 
         }).rejects.toThrow("Username/password is required!")  
@@ -33,6 +41,10 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: 'correct_admin',
                 password: '',
+<<<<<<< HEAD
+=======
+                permissions: ['admin']
+>>>>>>> correct-nodejs-backend/main
             })
 
         }).rejects.toThrow("Username/password is required!")  
@@ -45,6 +57,10 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: 'correct_admin',
                 password: 'admin123',
+<<<<<<< HEAD
+=======
+                permissions: ['admin']
+>>>>>>> correct-nodejs-backend/main
             })
 
         }).rejects.toThrow("Email is required!")  

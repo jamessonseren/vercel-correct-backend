@@ -9,7 +9,11 @@ export class CompanyUserDetailsUsecase{
     async execute(id: string){
 
         const getUserDetails = await this.companyUserRepository.findById(id)
+<<<<<<< HEAD
         if(!getUserDetails) throw new CustomError("User not found", 409)
+=======
+        if(!getUserDetails) throw new CustomError("User not found", 401)
+>>>>>>> correct-nodejs-backend/main
 
         return getUserDetails
     }

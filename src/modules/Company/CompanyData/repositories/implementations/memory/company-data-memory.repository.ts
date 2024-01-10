@@ -13,7 +13,10 @@ export class CompanyDataMemoryRepository implements ICompanyDataRepository{
             this.items[index] = {
                 corporate_name: data.corporate_name,
                 cnpj: data.cnpj,
+<<<<<<< HEAD
                 cnae_id: data.cnae_id,
+=======
+>>>>>>> correct-nodejs-backend/main
                 classification: data.classification,
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
@@ -37,9 +40,20 @@ export class CompanyDataMemoryRepository implements ICompanyDataRepository{
         return this.items.find(  item => item.id === id) || null
     }
 
+<<<<<<< HEAD
     findByCorrectAdminAndCnpj(correct_admin_id: string, cnpj: string): Promise<CompanyDataEntity | null> {
         throw new CustomError("Method not implemented.", 401);
     }
 
+=======
+    async findByCorrectAdminAndCnpj(correct_admin_id: string, cnpj: string): Promise<CompanyDataEntity | null> {
+        throw new CustomError("Method not implemented.", 401);
+    }
+
+    async deleteByCorrect(cnpj: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+>>>>>>> correct-nodejs-backend/main
 
 }

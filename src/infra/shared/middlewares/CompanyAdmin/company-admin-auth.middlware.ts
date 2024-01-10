@@ -28,7 +28,11 @@ export const companyIsAuth = async (req: Request, res: Response, next: NextFunct
         const ensureValidUser = new EnsureValidCompanyUserController(companyUserRepository)
         await ensureValidUser.handle(req, res)
        
+<<<<<<< HEAD
         
+=======
+       
+>>>>>>> correct-nodejs-backend/main
         return next()
     }
 

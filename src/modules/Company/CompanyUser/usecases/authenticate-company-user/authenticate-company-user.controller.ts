@@ -21,7 +21,11 @@ export class AuthenticateCompanyAdminController{
                 this.token
             )
 
+<<<<<<< HEAD
             const companyUser = await authCompanyUserUsecase.execute({ cnpj, user_name, password})
+=======
+            const companyUser = await authCompanyUserUsecase.execute({cnpj, user_name, password})
+>>>>>>> correct-nodejs-backend/main
 
             return res.json(companyUser)
 

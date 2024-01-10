@@ -22,7 +22,11 @@ export class CreateEmployerCardUsecase{
         if(!findCompanyData) throw new CustomError("Company data must be completed", 400)
         
         //check if company type is already registered
+<<<<<<< HEAD
         const findCompanyType = await this.companyTypeRepository.findByCompanyAdminId(companyAdminId)
+=======
+        const findCompanyType = await this.companyTypeRepository.findByCompanyUserId(companyAdminId)
+>>>>>>> correct-nodejs-backend/main
         if (!findCompanyType) throw new CustomError("Company type must be registered first", 400)
 
         //check if card is already hired

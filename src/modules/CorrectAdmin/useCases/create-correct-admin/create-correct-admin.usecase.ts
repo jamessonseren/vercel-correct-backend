@@ -7,6 +7,10 @@ export type CorrectAdminRequest = {
     email: string
     userName: string
     password: string
+<<<<<<< HEAD
+=======
+    permissions: string[]
+>>>>>>> correct-nodejs-backend/main
 }
 
 export class CreateCorrectAdminUseCase{

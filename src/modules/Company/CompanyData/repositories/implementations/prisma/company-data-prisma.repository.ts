@@ -5,6 +5,11 @@ import { ICompanyDataRepository } from "../../../../CompanyData/repositories/com
 
 export class CompanyDataPrismaRepository implements ICompanyDataRepository{
     
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> correct-nodejs-backend/main
     async saveOrUpdate(data: CompanyDataEntity): Promise<CompanyDataEntity> {
         const companyData = await prismaClient.companyData.upsert({
             where:{
@@ -13,7 +18,10 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
             create:{
                 corporate_name: data.corporate_name,
                 cnpj: data.cnpj,
+<<<<<<< HEAD
                 cnae_id: data.cnae_id,
+=======
+>>>>>>> correct-nodejs-backend/main
                 classification: data.classification,
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
@@ -23,7 +31,10 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
             },
             update:{
                 corporate_name: data.corporate_name,
+<<<<<<< HEAD
                 cnae_id: data.cnae_id,
+=======
+>>>>>>> correct-nodejs-backend/main
                 classification: data.classification,
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
@@ -45,7 +56,11 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
     }
 
     async findByCompanyAdmin(id: string): Promise<CompanyDataEntity | null> {
+<<<<<<< HEAD
         const companyData = await prismaClient.companyData.findFirst({
+=======
+        const companyData = await prismaClient.companyData.findUnique({
+>>>>>>> correct-nodejs-backend/main
             where:{
                 company_user_id: id
             }
@@ -65,4 +80,15 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
         return companyData
     }
 
+<<<<<<< HEAD
+=======
+    async deleteByCorrect(cnpj: string): Promise<void> {
+        await prismaClient.companyData.delete({
+            where:{
+                cnpj
+            }
+        })
+        
+    }
+>>>>>>> correct-nodejs-backend/main
 }

@@ -30,6 +30,10 @@ export class CreateAppUserByCorrectUsecase {
     async execute(csvFilePath: string, company_type_id: string, correct_admin_id: string) {
 
         const filePath = path.join(__dirname, '..', '..', '..', '..', '..','..', 'tmp', csvFilePath);
+<<<<<<< HEAD
+=======
+        if (!fs.existsSync(filePath)) throw new CustomError("File not found", 400);
+>>>>>>> correct-nodejs-backend/main
 
         const findCompany = await this.companyTypeRepository.findById(company_type_id)
 

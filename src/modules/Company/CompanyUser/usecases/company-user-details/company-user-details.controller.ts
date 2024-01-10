@@ -21,7 +21,13 @@ export class CompanyUserDetailsController{
             return res.json(companyUser)
 
         }catch(err:any){
+<<<<<<< HEAD
 
+=======
+            return res.status(err.statusCode).json({
+                error: err.message
+            })
+>>>>>>> correct-nodejs-backend/main
         }
 
 

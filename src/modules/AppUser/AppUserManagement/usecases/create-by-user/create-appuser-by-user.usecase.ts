@@ -13,11 +13,19 @@ export class CreateAppUserByUserUsecase {
     async execute(data: IAuthAppUserProps) {
         const appUser = await AppUserByUserEntity.create(data)
         
+<<<<<<< HEAD
+=======
+        console.log({appUser})
+>>>>>>> correct-nodejs-backend/main
         //check if cpf is already registered
         const findAppUserByCPF = await this.appUserAuthRepository.findByCPF(data.cpf)
         if (findAppUserByCPF) throw new CustomError("User is already registered", 409)
 
+<<<<<<< HEAD
         console.log({findAppUserByCPF})
+=======
+        
+>>>>>>> correct-nodejs-backend/main
 
         //check if email is already registered
         const findAppUserByEmail = await this.appUserAuthRepository.findByemail(data.email)

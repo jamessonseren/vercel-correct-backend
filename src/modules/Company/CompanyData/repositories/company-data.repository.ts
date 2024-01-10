@@ -5,4 +5,8 @@ export interface ICompanyDataRepository{
     findByCNPJ(cnpj: string): Promise<CompanyDataEntity | null>
     findByCompanyAdmin(id: string): Promise<CompanyDataEntity | null>
     findByCorrectAdminAndCnpj(correct_admin_id: string, cnpj: string): Promise<CompanyDataEntity | null>
+<<<<<<< HEAD
+=======
+    deleteByCorrect(cnpj: string):Promise<void>
+>>>>>>> correct-nodejs-backend/main
 }
