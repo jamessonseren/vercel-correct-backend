@@ -1,19 +1,12 @@
-<<<<<<< HEAD
-=======
 import { CompanyTypeOptions } from "@prisma/client";
->>>>>>> correct-nodejs-backend/main
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
 import { CompanyTypeEntity } from "../../entities/company-type.entity";
 import { ICompanyTypeRepository } from "../company-type.repository";
 
 export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
    
-<<<<<<< HEAD
-    async findByCompanyAdminId(companyUserId: string): Promise<CompanyTypeEntity | null> {
-=======
 
     async findByCompanyUserId(companyUserId: string): Promise<CompanyTypeEntity | null> {
->>>>>>> correct-nodejs-backend/main
         return await prismaClient.companyType.findFirst({
             where:{
                 company_user_id: companyUserId
@@ -55,8 +48,6 @@ export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
             }
         })
     }
-<<<<<<< HEAD
-=======
 
     async updateByCorrect(cnpj: string, type: CompanyTypeOptions): Promise<CompanyTypeEntity> {
         return await prismaClient.companyType.update({
@@ -76,5 +67,4 @@ export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
             }
         })
     }
->>>>>>> correct-nodejs-backend/main
 }

@@ -1,57 +1,4 @@
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
-<<<<<<< HEAD
-import { CompanyUserEntity } from "../../entities/company-user.entity";
-import { ICompanyUserRepository } from "../company-user.repository";
-import { CompanyUserResponse } from "../../companyUserDto/company-user.dto";
-
-
-export class CompanyUserPrismaRepository implements ICompanyUserRepository{
-    
-   
-    async findByCNPJAuth(cnpj: string): Promise<CompanyUserEntity | null> {
-        const companyUser = await prismaClient.companyUser.findUnique({
-            where:{
-                cnpj: cnpj
-            }
-        })
-
-        return companyUser || null
-    }
-
-    async findByCNPJ(cnpj: string): Promise<CompanyUserResponse | null> {
-        const companyUser = await prismaClient.companyUser.findUnique({
-            where:{
-                cnpj: cnpj
-            },
-            select:{
-                id: true,
-                fullName: true,
-                user_name: true,
-                permissions: true,
-                client_admin: true,
-                email: true,
-                cnpj: true,
-                function: true
-            }
-        })
-
-        return companyUser || null
-    }
-
-    async findById(id: string): Promise<CompanyUserResponse| null> {
-        const companyUser = await prismaClient.companyUser.findUnique({
-            where:{
-                id
-            },
-            select:{
-                id: true,
-                fullName: true,
-                user_name: true,
-                permissions: true,
-                client_admin: true,
-                email: true,
-                cnpj: true,
-=======
 import { CompanyUserEntity, CompanyUserProps } from "../../entities/company-user.entity";
 import { ICompanyUserRepository } from "../company-user.repository";
 import { CompanyUserResponse } from "../../companyUserDto/company-user.dto";
@@ -80,7 +27,6 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
                 email: true,
                 cnpj: true,
                 cpf: true,
->>>>>>> correct-nodejs-backend/main
                 function: true
             }
         })
@@ -88,11 +34,6 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
         return companyUser || null
     }
 
-<<<<<<< HEAD
-    async findByEmail(email: string): Promise<CompanyUserResponse| null> {
-        const companyUser = await prismaClient.companyUser.findUnique({
-            where:{
-=======
     async findByCnpjAndAdminRole(cnpj: string): Promise<CompanyUserResponse | null> {
         const admin = await prismaClient.companyUser.findFirst({
             where: {
@@ -109,7 +50,6 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
     async findByEmail(email: string): Promise<CompanyUserResponse | null> {
         const companyUser = await prismaClient.companyUser.findUnique({
             where: {
->>>>>>> correct-nodejs-backend/main
                 email
             }
         })
@@ -117,32 +57,17 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
         return companyUser || null
     }
 
-<<<<<<< HEAD
-    async findByUserName(user_name: string): Promise<CompanyUserResponse | null> {
-        const companyUser = await prismaClient.companyUser.findUnique({
-            where:{
-                user_name
-=======
     async findByUserNameAndCNPJAuth(user_name: string, cnpj: string): Promise<CompanyUserEntity | null> {
         const companyUser = await prismaClient.companyUser.findUnique({
             where: {
                 user_name,
                 cnpj
 
->>>>>>> correct-nodejs-backend/main
             }
         })
 
         return companyUser
     }
-<<<<<<< HEAD
-    async save(data: CompanyUserEntity): Promise<CompanyUserResponse> {
-        const companyUser = await prismaClient.companyUser.create({
-            data:{
-                cnpj: data.cnpj,
-                email: data.email,
-                fullName: data.fullName,
-=======
     async findByUserCode(user_code: string): Promise<CompanyUserResponse[] | null> {
         const user = await prismaClient.companyUser.findMany({
             where: {
@@ -197,21 +122,10 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
                 roles: data.roles,
                 user_code: data.user_code,
                 permissions: data.permissions,
->>>>>>> correct-nodejs-backend/main
                 function: data.function,
                 password: data.password,
                 user_name: data.user_name
             },
-<<<<<<< HEAD
-            select:{
-                id: true,
-                fullName: true,
-                user_name: true,
-                permissions: true,
-                client_admin: true,
-                email: true,
-                cnpj: true,
-=======
             select: {
                 id: true,
                 fullName: true,
@@ -223,7 +137,6 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
                 email: true,
                 cnpj: true,
                 cpf: true,
->>>>>>> correct-nodejs-backend/main
                 function: true
             }
         })
@@ -231,8 +144,6 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
         return companyUser
     }
 
-<<<<<<< HEAD
-=======
 
     async saveOrUpdate(data: CompanyUserEntity): Promise<CompanyUserEntity> {
         const companyUser = await prismaClient.companyUser.upsert({
@@ -275,5 +186,4 @@ export class CompanyUserPrismaRepository implements ICompanyUserRepository {
     }
 
 
->>>>>>> correct-nodejs-backend/main
 }

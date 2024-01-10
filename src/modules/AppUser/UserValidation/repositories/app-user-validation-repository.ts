@@ -1,4 +1,4 @@
-import { AppUserValidationEntity } from "../../entities/app-user-validation/appuser-validation.entity";
+import { AppUserValidationEntity } from "../entities/appuser-validation.entity";
 
 export interface IAppUserValidationRepository{
     findByAuthId(id: string): Promise<AppUserValidationEntity | null>

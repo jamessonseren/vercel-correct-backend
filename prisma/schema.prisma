@@ -21,10 +21,7 @@ model CorrectAdmin {
   userName    String        @unique
   email       String        @unique
   password    String
-<<<<<<< HEAD
-=======
   permissions UserRoles[]   @default([admin])
->>>>>>> correct-nodejs-backend/main
   CompanyData CompanyData[]
   AppUserData AppUserData[]
   Cards       Cards[]
@@ -32,26 +29,6 @@ model CorrectAdmin {
   @@map("correct_admin")
 }
 
-<<<<<<< HEAD
-enum CompanyPermissions {
-  admin
-  ecommerce
-  sales
-}
-
-model CompanyUser {
-  id           String               @id @default(uuid())
-  email        String?              @unique
-  cnpj         String               @unique
-  user_name    String               @unique
-  password     String
-  fullName     String?
-  permissions  CompanyPermissions[] @default([admin])
-  function     String?
-  client_admin Boolean              @default(false)
-  created_at   DateTime?            @default(now())
-  updated_at   DateTime?            @updatedAt
-=======
 enum UserRoles {
   admin
   user
@@ -87,47 +64,30 @@ model CompanyUser {
   client_admin Boolean       @default(false)
   created_at   DateTime?     @default(now())
   updated_at   DateTime?     @updatedAt
->>>>>>> correct-nodejs-backend/main
 
   CompanyData   CompanyData[]
   CompanyType   CompanyType[]
   Product       Product[]
   Advertisement Advertisement[]
 
-<<<<<<< HEAD
-  @@map("company_user")
-=======
   @@map("company_users")
->>>>>>> correct-nodejs-backend/main
 }
 
 model CompanyData {
   id               String  @id @default(uuid())
   corporate_name   String
   cnpj             String  @unique
-<<<<<<< HEAD
-  cnae_id          String
-=======
->>>>>>> correct-nodejs-backend/main
   classification   String
   total_employees  Int
   phone_1          String
   phone_2          String?
-<<<<<<< HEAD
-  company_user_id  String
-=======
   company_user_id  String  @unique
->>>>>>> correct-nodejs-backend/main
   correct_admin_id String
 
   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
   CompanyUser  CompanyUser  @relation(fields: [company_user_id], references: [id])
 
-<<<<<<< HEAD
-  @@map("company_data")
-=======
   @@map("company_datas")
->>>>>>> correct-nodejs-backend/main
 }
 
 model CompanyType {
@@ -142,11 +102,7 @@ model CompanyType {
   EmployerCards        EmployerCards[]
   CompanyBusinessCards CompanyBusinessCards[]
 
-<<<<<<< HEAD
-  @@map("company_type")
-=======
   @@map("company_types")
->>>>>>> correct-nodejs-backend/main
 }
 
 enum CompanyTypeOptions {
@@ -174,11 +130,7 @@ model AppUserData {
   authenticated         Boolean  @default(false)
   marital_status        String
   dependents_quantity   Int      @default(0)
-<<<<<<< HEAD
-  correct_admin_id       String
-=======
   correct_admin_id      String
->>>>>>> correct-nodejs-backend/main
 
   created_at DateTime? @default(now())
   updated_at DateTime? @updatedAt
@@ -186,11 +138,7 @@ model AppUserData {
   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
   CompanyType  CompanyType? @relation(fields: [company_type_id], references: [id])
 
-<<<<<<< HEAD
-  @@map("app_user_data")
-=======
   @@map("app_user_datas")
->>>>>>> correct-nodejs-backend/main
 }
 
 model AppUserAuth {
@@ -223,11 +171,7 @@ model AppUserValidationDocument {
 
   AppUserAuth AppUserAuth @relation(fields: [app_user_auth_id], references: [id])
 
-<<<<<<< HEAD
-  @@map("app_user_validation")
-=======
   @@map("app_user_validations")
->>>>>>> correct-nodejs-backend/main
 }
 
 model Cards {
@@ -324,40 +268,6 @@ model CompanyBusinessCards {
   @@map("company_business_cards")
 }
 
-<<<<<<< HEAD
-// model CompanySecondaryUser {
-//   id               String   @id @default(uuid())
-//   user_permissions String[] @default([])
-//   cnpj             String
-//   user_name        String   @unique
-//   password         String
-//   company_admin_id String
-
-//   CompanyUser CompanyUser @relation(fields: [company_admin_id], references: [id])
-
-//   @@map("company_secondary_user")
-//}
-
-// model Category {
-//   id               String @id @default(uuid())
-//   name             String
-//   correct_admin_id String
-
-//   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
-
-//   @@map("categories")
-// }
-
-model Product {
-  id               String    @id @default(uuid())
-  name             String
-  description      String?
-  banner           String    @default("")
-  category_name    String
-  company_user_id String
-  created_at       DateTime? @default(now())
-  updated_at       DateTime? @updatedAt
-=======
 model CompanyAddress {
   id           String  @id @default(uuid())
   street       String
@@ -382,7 +292,6 @@ model Product {
   company_user_id String
   created_at      DateTime? @default(now())
   updated_at      DateTime? @updatedAt
->>>>>>> correct-nodejs-backend/main
 
   Advertisement Advertisement[]
 
@@ -392,16 +301,6 @@ model Product {
 }
 
 model Advertisement {
-<<<<<<< HEAD
-  id               String    @id @default(uuid())
-  name             String
-  description      String?
-  price            Int
-  banner           String    @default("")
-  product_id       String
-  created_at       DateTime? @default(now())
-  updated_at       DateTime? @updatedAt
-=======
   id              String    @id @default(uuid())
   name            String
   description     String?
@@ -410,7 +309,6 @@ model Advertisement {
   product_id      String
   created_at      DateTime? @default(now())
   updated_at      DateTime? @updatedAt
->>>>>>> correct-nodejs-backend/main
   company_user_id String
 
   Product     Product     @relation(fields: [product_id], references: [id])

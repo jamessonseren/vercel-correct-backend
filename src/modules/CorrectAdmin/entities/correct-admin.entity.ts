@@ -8,10 +8,7 @@ type ICorrectAdmin = {
     email: string
     userName: string
     password: string
-<<<<<<< HEAD
-=======
     permissions: string[]
->>>>>>> correct-nodejs-backend/main
 }
 
 export class CorrectAdminEntity {
@@ -20,10 +17,7 @@ export class CorrectAdminEntity {
     email: string
     userName: string
     password: string
-<<<<<<< HEAD
-=======
     permissions: string[]
->>>>>>> correct-nodejs-backend/main
 
     private constructor(props: ICorrectAdmin){
 
@@ -32,10 +26,7 @@ export class CorrectAdminEntity {
         this.email = props.email
         this.userName = props.userName
         this.password = props.password
-<<<<<<< HEAD
-=======
         this.permissions = props.permissions
->>>>>>> correct-nodejs-backend/main
         
         
     }

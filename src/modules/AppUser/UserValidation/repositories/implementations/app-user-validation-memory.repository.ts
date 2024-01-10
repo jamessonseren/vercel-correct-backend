@@ -1,4 +1,4 @@
-import { AppUserValidationEntity } from "../../../entities/app-user-validation/appuser-validation.entity";
+import { AppUserValidationEntity } from "../../entities/appuser-validation.entity";
 import { IAppUserValidationRepository } from "../app-user-validation-repository";
 
 export class AppUserValidationMemoryRepository implements IAppUserValidationRepository {

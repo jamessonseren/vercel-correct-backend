@@ -17,11 +17,7 @@ export class ActivateBusinessCardsByCorrectUsecase {
 
 
     ) {}
-<<<<<<< HEAD
-    async execute(data: PartnerCardsProps, correctAdminId: string, cnpj: string) {
-=======
     async execute(data: PartnerCardsProps, cnpj: string) {
->>>>>>> correct-nodejs-backend/main
 
         if(!cnpj) throw new CustomError("Company CNPJ is required", 401)
 

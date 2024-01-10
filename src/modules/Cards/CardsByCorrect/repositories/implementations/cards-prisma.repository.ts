@@ -3,10 +3,7 @@ import { CardsEntity, CardsProps } from "../../entities/cards.entity";
 import { ICards } from "../cards-repository";
 
 export class CardsPrismaRepository implements ICards{
-<<<<<<< HEAD
-=======
     
->>>>>>> correct-nodejs-backend/main
     async findById(id: string): Promise<CardsEntity | null> {
         const card = await prismaClient.cards.findUnique({
             where:{
@@ -24,15 +21,12 @@ export class CardsPrismaRepository implements ICards{
         })
         return card
     }
-<<<<<<< HEAD
-=======
 
     async findAllCards(): Promise<CardsEntity[] | null> {
         const cards = await prismaClient.cards.findMany();
 
         return cards
     }
->>>>>>> correct-nodejs-backend/main
     async saveOrUpdate(data: CardsEntity): Promise<CardsEntity> {
         const card = await prismaClient.cards.upsert({
             where:{

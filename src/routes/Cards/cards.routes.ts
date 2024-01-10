@@ -1,20 +1,13 @@
 import { Router, request, response } from "express";
 import { correctIsAuth } from "../../infra/shared/middlewares/CorrectAdmin/correct-admin-auth.middleware";
-<<<<<<< HEAD
-import { createCardsController } from "../../modules/Cards/CardsByCorrect/usecases";
-=======
 import { createCardsController } from "../../modules/Cards/CardsByCorrect/usecases/create-update-cards";
->>>>>>> correct-nodejs-backend/main
 import { companyIsAuth } from "../../infra/shared/middlewares/CompanyAdmin/company-admin-auth.middlware";
 import { createPartnerCardController } from "../../modules/Cards/PartnerCards/usecases/create-partner-card-usecase";
 import { createEmployerCardController } from "../../modules/Cards/EmployerCards/usecases/create-employer-card";
 import { activateBusinessCardController } from "../../modules/Cards/CompanyBusinessCards/usecases/activate-business-cards-by-correct";
 import { activatePartnerDebitCardController } from "../../modules/Cards/PartnerCards/usecases/activate-debit-card-by-correct";
 import { activateDebitCardController } from "../../modules/Cards/CompanyDebitCards/usecases/activate-debit-cards-by-correct";
-<<<<<<< HEAD
-=======
 import { getCardsController } from "../../modules/Cards/CardsByCorrect/usecases/get-cards";
->>>>>>> correct-nodejs-backend/main
 
 const cardsRouter = Router()
 
@@ -24,14 +17,11 @@ cardsRouter.post("/cards", correctIsAuth, async (request, response) => {
     await createCardsController.handle(request, response)
 })
 
-<<<<<<< HEAD
-=======
 //Get All cards
 cardsRouter.get('/cards', async (request, response) => {
     await getCardsController.handle(request, response)
 })
 
->>>>>>> correct-nodejs-backend/main
 
 //partner routes
 cardsRouter.post("/partner-cards", companyIsAuth, async (request, response) => {

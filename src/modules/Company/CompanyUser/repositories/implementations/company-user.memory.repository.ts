@@ -1,46 +1,24 @@
-<<<<<<< HEAD
-// import { CompanyAdminEntity } from "../../entities/company-admin.entity";
-// import { ICompanyAdminRepository } from "../company-admin.repository";
-// import { CompanyAdminResponse } from "../../companyAdminDto/company-admin.dto";
-
-// export class CompanyAdminMemoryRepository implements ICompanyAdminRepository{
-    
-//     admin: CompanyAdminResponse[] = []
-//     adminAuth: CompanyAdminEntity[] = []
-
-//     async findByCNPJAuth(cnpj: string): Promise<CompanyAdminEntity | null> {
-//         return this.adminAuth.find(admin => admin.cnpj === cnpj) || null
-//     }
-//     async findByCNPJ(cnpj: string): Promise<CompanyAdminResponse | null> {
-//         return this.admin.find(admin => admin.cnpj === cnpj) || null
-//     }
-    
-//     async findById(id: string): Promise<CompanyAdminResponse | null> {
-//         return this.admin.find(admin => admin.id === id) || null
-//     }
-
-//     async findByEmail(email: string): Promise<CompanyAdminResponse | null> {
-//         return this.admin.find(admin => admin.email === email) || null
-//     }
-
-//      async findByUserNameAndCnpj(user_name: string, cnpj: string): Promise<CompanyAdminResponse | null> {
-//         return
-//     }
-
-//     async save(data: CompanyAdminEntity): Promise<CompanyAdminResponse> {
-//         this.adminAuth.push(data)
-//         return
-
-//     }
-
-// }
-=======
-import { CompanyUserEntity } from "../../entities/company-user.entity";
+import { CompanyUserEntity, CompanyUserProps } from "../../entities/company-user.entity";
 import { ICompanyUserRepository } from "../company-user.repository";
 import { CompanyUserResponse } from "../../companyUserDto/company-user.dto";
 import { $Enums } from "@prisma/client";
 
 export class CompanyUserMemoryRepository implements ICompanyUserRepository{
+    findByUserNameAndCNPJAuth(user_name: string, cnpj: string): Promise<CompanyUserEntity | null> {
+        throw new Error("Method not implemented.");
+    }
+    findByCnpjAndAdminRole(cnpj: string): Promise<CompanyUserResponse | null> {
+        throw new Error("Method not implemented.");
+    }
+    updateUser(data: CompanyUserProps): Promise<CompanyUserResponse> {
+        throw new Error("Method not implemented.");
+    }
+    saveUser(data: CompanyUserEntity): Promise<CompanyUserResponse> {
+        throw new Error("Method not implemented.");
+    }
+    deleteByAdminById(user_id: string): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
     
     
     
@@ -103,4 +81,3 @@ export class CompanyUserMemoryRepository implements ICompanyUserRepository{
     }
 
 }
->>>>>>> correct-nodejs-backend/main
