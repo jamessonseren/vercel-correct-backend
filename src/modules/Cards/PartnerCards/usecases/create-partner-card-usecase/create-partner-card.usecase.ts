@@ -26,7 +26,7 @@ export class CreatePartnerCardsUsecase {
         if (!findCompanyData) throw new CustomError("Company data must be completed", 400)
 
         //check if company type is already registered
-        const findCompanyType = await this.companyTypeRepository.findByCompanyAdminId(companyAdminId)
+        const findCompanyType = await this.companyTypeRepository.findByCompanyUserId(companyAdminId)
         if (!findCompanyType) throw new CustomError("Company type must be registered first", 400)
 
         //check if card is already hired - find by Card Id FK

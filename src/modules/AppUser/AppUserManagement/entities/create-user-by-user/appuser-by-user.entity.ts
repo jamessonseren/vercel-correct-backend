@@ -14,10 +14,7 @@ export class AppUserByUserEntity{
     password: string
 
     private constructor(props: IAuthAppUserProps){
-        if(!props.cpf) throw new CustomError("CPF is required", 401)
-        if(!props.email) throw new CustomError("Email is required", 401)
-        if(!props.password) throw new CustomError("Password is required", 401)
-
+        
         this.id = randomUUID()
         this.cpf = props.cpf
         this.email = props.email
@@ -25,7 +22,11 @@ export class AppUserByUserEntity{
     }
     
     static async create(data: IAuthAppUserProps){
-
+        
+        if(!data.cpf) throw new CustomError("CPF is required", 400)
+        if(!data.email) throw new CustomError("Email is required", 400)
+        if(!data.password) throw new CustomError("Password is required", 400)
+        
         const bcrypt = new PasswordBCrypt()
         const passwordHash = await bcrypt.hash(data.password)
 

@@ -8,6 +8,7 @@ describe("Correct Admin Entity", () => {
             name:'Correct Admin',
             userName: 'correct_admin',
             password: 'admin123',
+            permissions: ['admin']
         })
     
         expect(correctAdmin).toBeInstanceOf(CorrectAdminEntity)
@@ -21,6 +22,7 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: '',
                 password: 'admin123',
+                permissions: ['admin']
             })
 
         }).rejects.toThrow("Username/password is required!")  
@@ -33,6 +35,7 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: 'correct_admin',
                 password: '',
+                permissions: ['admin']
             })
 
         }).rejects.toThrow("Username/password is required!")  
@@ -45,6 +48,7 @@ describe("Correct Admin Entity", () => {
                 name:'Correct Admin',
                 userName: 'correct_admin',
                 password: 'admin123',
+                permissions: ['admin']
             })
 
         }).rejects.toThrow("Email is required!")  

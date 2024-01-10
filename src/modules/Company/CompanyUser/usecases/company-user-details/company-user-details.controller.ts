@@ -21,7 +21,9 @@ export class CompanyUserDetailsController{
             return res.json(companyUser)
 
         }catch(err:any){
-
+            return res.status(err.statusCode).json({
+                error: err.message
+            })
         }
 
 

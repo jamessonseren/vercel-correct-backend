@@ -3,7 +3,9 @@ import { CompanyUserEntity } from "../../../../../modules/Company/CompanyUser/en
 export type TokenCompanyAdmin = {
     sub: string
 }
+
+
 export interface ICompanyAdminToken{
     create(admin: CompanyUserEntity): string
-    validate(token: string): TokenCompanyAdmin | null
+    validate(token: string):TokenCompanyAdmin | null
 }

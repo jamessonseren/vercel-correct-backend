@@ -2,9 +2,11 @@ import { Request, Response } from "express";
 import { ICompanyUserRepository } from "../../repositories/company-user.repository";
 import { CreateCompanyUserUseCase } from "./create-company-user.usecase";
 import { CompanyUserProps } from "../../entities/company-user.entity";
+import { logger } from "../../../../../utils/logger";
+
 export class CreateCompanyUserController {
     constructor(
-        private companyAdminRepository: ICompanyUserRepository
+        private companyUserRepository: ICompanyUserRepository
 
     ){
 
@@ -14,15 +16,17 @@ export class CreateCompanyUserController {
         try{
             const data: CompanyUserProps = req.body
 
-            const companyAdminUsecase = new CreateCompanyUserUseCase(
-                this.companyAdminRepository
+
+            const companyUserUsecase = new CreateCompanyUserUseCase(
+                this.companyUserRepository
             )
 
-            const companyAdmin = await companyAdminUsecase.execute(data)
+            const companyUser = await companyUserUsecase.execute(data)
 
-            return res.json(companyAdmin)
+            return res.json(companyUser)
             
         }catch(err: any){
+            logger.error(err.stack)
             return res.status(err.statusCode).json({
                 error: err.message
             })

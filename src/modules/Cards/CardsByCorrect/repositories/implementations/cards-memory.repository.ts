@@ -2,15 +2,20 @@ import { CardsEntity, CardsProps } from "../../entities/cards.entity";
 import { ICards } from "../cards-repository";
 
 export class CardsMemoryRepository implements ICards{
-
+    
     items: CardsEntity[] = []
-
+    
     async findById(id: string): Promise<CardsEntity | null> {
         return this.items.find(card => card.id === id) || null
     }
     async findByName(name: string): Promise<CardsEntity | null> {
         return this.items.find(card => card.card_name === name) || null
     }
+    
+    async findAllCards(): Promise<CardsEntity[] | null> {
+        return this.items
+    }
+
     async saveOrUpdate(data: CardsEntity): Promise<CardsEntity> {
         const index = this.items.findIndex(card => card.card_name == card.card_name)
         if(index >= 0){

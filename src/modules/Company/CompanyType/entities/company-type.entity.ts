@@ -15,14 +15,6 @@ export class CompanyTypeEntity {
 
     private constructor(props: CompanyTypeProps) {
 
-        if(!props.type) throw new CustomError("Company type must be specified!", 401)
-        if(!props.cnpj) throw new CustomError("CNPJ must be informed", 401)
-        if(!props.company_user_id) throw new CustomError("User must be signed in", 401)
-
-        if(!(Object.values(CompanyTypeOptions).includes(props.type))) throw new CustomError("Company type is not valid!", 401)
-        if(typeof props.cnpj !== 'string') throw new CustomError("CNPJ must be string stype", 401)
-        if(typeof props.company_user_id !== 'string') throw new CustomError("Company user must be string type", 401)
-
         this.id = randomUUID()
         this.type = props.type
         this.cnpj = props.cnpj
@@ -30,6 +22,15 @@ export class CompanyTypeEntity {
      }
 
     static async create(data: CompanyTypeProps) {
+        if(!data.type) throw new CustomError("Company type must be specified!", 401)
+        if(!data.cnpj) throw new CustomError("CNPJ must be informed", 401)
+        if(!data.company_user_id) throw new CustomError("User must be signed in", 401)
+
+        if(!(Object.values(CompanyTypeOptions).includes(data.type))) throw new CustomError("Company type is not valid!", 401)
+        if(typeof data.cnpj !== 'string') throw new CustomError("CNPJ must be string stype", 401)
+        if(typeof data.company_user_id !== 'string') throw new CustomError("Company user must be string type", 401)
+
+
         const companyType = new CompanyTypeEntity(data)
         return companyType
     }

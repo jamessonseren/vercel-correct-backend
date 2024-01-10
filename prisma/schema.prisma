@@ -21,6 +21,7 @@ model CorrectAdmin {
   userName    String        @unique
   email       String        @unique
   password    String
+  permissions UserRoles[]   @default([admin])
   CompanyData CompanyData[]
   AppUserData AppUserData[]
   Cards       Cards[]
@@ -28,49 +29,65 @@ model CorrectAdmin {
   @@map("correct_admin")
 }
 
-enum CompanyPermissions {
+enum UserRoles {
   admin
-  ecommerce
+  user
+}
+
+enum Permissions {
+  none
   sales
+  finances
+  marketing
+  benefits
+  transports
+  allPartners
+  allEmployers
+}
+
+enum Permission {
+  all
 }
 
 model CompanyUser {
-  id           String               @id @default(uuid())
-  email        String?              @unique
-  cnpj         String               @unique
-  user_name    String               @unique
+  id           String        @id @default(uuid())
+  email        String?       @unique
+  cnpj         String
+  cpf          String?       @unique
+  user_name    String        @unique
+  user_code    String        @default(uuid())
   password     String
   fullName     String?
-  permissions  CompanyPermissions[] @default([admin])
+  roles        UserRoles[]   @default([admin])
+  permissions  Permissions[] @default([none])
   function     String?
-  client_admin Boolean              @default(false)
-  created_at   DateTime?            @default(now())
-  updated_at   DateTime?            @updatedAt
+  client_admin Boolean       @default(false)
+  created_at   DateTime?     @default(now())
+  updated_at   DateTime?     @updatedAt
 
   CompanyData   CompanyData[]
   CompanyType   CompanyType[]
   Product       Product[]
   Advertisement Advertisement[]
 
-  @@map("company_user")
+  @@map("company_users")
 }
 
 model CompanyData {
   id               String  @id @default(uuid())
   corporate_name   String
   cnpj             String  @unique
-  cnae_id          String
   classification   String
   total_employees  Int
   phone_1          String
   phone_2          String?
-  company_user_id  String
+  company_user_id  String  @unique
   correct_admin_id String
 
   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
   CompanyUser  CompanyUser  @relation(fields: [company_user_id], references: [id])
 
-  @@map("company_data")
+  @@map("company_datas")
 }
 
 model CompanyType {
@@ -85,7 +102,7 @@ model CompanyType {
   EmployerCards        EmployerCards[]
   CompanyBusinessCards CompanyBusinessCards[]
 
-  @@map("company_type")
+  @@map("company_types")
 }
 
 enum CompanyTypeOptions {
@@ -113,7 +130,7 @@ model AppUserData {
   authenticated         Boolean  @default(false)
   marital_status        String
   dependents_quantity   Int      @default(0)
-  correct_admin_id       String
+  correct_admin_id      String
 
   created_at DateTime? @default(now())
   updated_at DateTime? @updatedAt
@@ -121,7 +138,7 @@ model AppUserData {
   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
   CompanyType  CompanyType? @relation(fields: [company_type_id], references: [id])
 
-  @@map("app_user_data")
+  @@map("app_user_datas")
 }
 
 model AppUserAuth {
@@ -154,7 +171,7 @@ model AppUserValidationDocument {
 
   AppUserAuth AppUserAuth @relation(fields: [app_user_auth_id], references: [id])
 
-  @@map("app_user_validation")
+  @@map("app_user_validations")
 }
 
 model Cards {
@@ -251,38 +268,30 @@ model CompanyBusinessCards {
   @@map("company_business_cards")
 }
 
-// model CompanySecondaryUser {
-//   id               String   @id @default(uuid())
-//   user_permissions String[] @default([])
-//   cnpj             String
-//   user_name        String   @unique
-//   password         String
-//   company_admin_id String
+model CompanyAddress {
+  id           String  @id @default(uuid())
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  zip_code     String
+  city         String
+  state        String
+  country      String
+  cnpj         String  @unique
 
-//   CompanyUser CompanyUser @relation(fields: [company_admin_id], references: [id])
-
-//   @@map("company_secondary_user")
-//}
-
-// model Category {
-//   id               String @id @default(uuid())
-//   name             String
-//   correct_admin_id String
-
-//   CorrectAdmin CorrectAdmin @relation(fields: [correct_admin_id], references: [id])
-
-//   @@map("categories")
-// }
+  @@map("company_addressess")
+}
 
 model Product {
-  id               String    @id @default(uuid())
-  name             String
-  description      String?
-  banner           String    @default("")
-  category_name    String
+  id              String    @id @default(uuid())
+  name            String
+  description     String?
+  banner          String    @default("")
+  category_name   String
   company_user_id String
-  created_at       DateTime? @default(now())
-  updated_at       DateTime? @updatedAt
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
 
   Advertisement Advertisement[]
 
@@ -292,14 +301,14 @@ model Product {
 }
 
 model Advertisement {
-  id               String    @id @default(uuid())
-  name             String
-  description      String?
-  price            Int
-  banner           String    @default("")
-  product_id       String
-  created_at       DateTime? @default(now())
-  updated_at       DateTime? @updatedAt
+  id              String    @id @default(uuid())
+  name            String
+  description     String?
+  price           Int
+  banner          String    @default("")
+  product_id      String
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
   company_user_id String
 
   Product     Product     @relation(fields: [product_id], references: [id])

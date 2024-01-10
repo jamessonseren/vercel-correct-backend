@@ -4,7 +4,7 @@ import { createAppUserByUserController } from "../../modules/AppUser/AppUserMana
 import uploadConfig from '../../infra/shared/multer/multer.config'
 import multer from 'multer'
 import { correctIsAuth } from "../../infra/shared/middlewares/CorrectAdmin/correct-admin-auth.middleware";
-import { authenticateAppUserController } from "../../modules/AppUser/AppUserManagement/usecases/app-user-authentication";
+import { authenticateAppUserController } from "../../modules/AppUser/AppUserManagement/usecases/create-by-user/app-user-authentication";
 import { appUserIsAuth } from "../../infra/shared/middlewares/AppUser/app-user-auth.middleware";
 import { createAppUserDataController } from "../../modules/AppUser/UserByCorrect/usecases/create-appuser-data-by-user";
 

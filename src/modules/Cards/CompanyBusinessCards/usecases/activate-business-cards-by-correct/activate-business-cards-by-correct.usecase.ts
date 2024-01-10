@@ -17,7 +17,7 @@ export class ActivateBusinessCardsByCorrectUsecase {
 
 
     ) {}
-    async execute(data: PartnerCardsProps, correctAdminId: string, cnpj: string) {
+    async execute(data: PartnerCardsProps, cnpj: string) {
 
         if(!cnpj) throw new CustomError("Company CNPJ is required", 401)
 

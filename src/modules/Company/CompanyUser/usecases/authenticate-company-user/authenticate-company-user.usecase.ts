@@ -4,6 +4,7 @@ import { ICompanyAdminToken } from "../../../../../infra/shared/crypto/token/Com
 import { ICompanyUserRepository } from "../../repositories/company-user.repository"
 
 export type AuthenticateCompanyUserRequest = {
+   
     cnpj: string,
     user_name: string,
     password: string,
@@ -17,10 +18,10 @@ export class AuthenticateCompanyUserUsecase{
     
     async execute({ cnpj, user_name, password}: AuthenticateCompanyUserRequest ){
 
-        if(!cnpj || !password || !user_name) throw new CustomError("Incorrect CNPJ, username or password", 401)
+        if(!cnpj || !password || !user_name) throw new CustomError("Incorrect username/password", 401)
 
-        const findAdmin = await this.companyUserRepository.findByCNPJAuth(cnpj)
-        if(!findAdmin) throw new CustomError("Incorrect CNPJ, username or password", 401)
+        const findAdmin = await this.companyUserRepository.findByUserNameAndCNPJAuth(user_name, cnpj)
+        if(!findAdmin) throw new CustomError("Incorrect username/password", 401)
 
         const comparePasswordHash = await this.passwordCrypto.compare(password, findAdmin.password )
         if(!comparePasswordHash) throw new CustomError("Incorrect CNPJ, username or password", 401)

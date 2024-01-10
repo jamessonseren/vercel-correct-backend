@@ -5,6 +5,8 @@ import { ICompanyDataRepository } from "../../../../CompanyData/repositories/com
 
 export class CompanyDataPrismaRepository implements ICompanyDataRepository{
     
+    
+    
     async saveOrUpdate(data: CompanyDataEntity): Promise<CompanyDataEntity> {
         const companyData = await prismaClient.companyData.upsert({
             where:{
@@ -13,7 +15,6 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
             create:{
                 corporate_name: data.corporate_name,
                 cnpj: data.cnpj,
-                cnae_id: data.cnae_id,
                 classification: data.classification,
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
@@ -23,7 +24,6 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
             },
             update:{
                 corporate_name: data.corporate_name,
-                cnae_id: data.cnae_id,
                 classification: data.classification,
                 total_employees: data.total_employees,
                 phone_1: data.phone_1,
@@ -45,7 +45,7 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
     }
 
     async findByCompanyAdmin(id: string): Promise<CompanyDataEntity | null> {
-        const companyData = await prismaClient.companyData.findFirst({
+        const companyData = await prismaClient.companyData.findUnique({
             where:{
                 company_user_id: id
             }
@@ -65,4 +65,12 @@ export class CompanyDataPrismaRepository implements ICompanyDataRepository{
         return companyData
     }
 
+    async deleteByCorrect(cnpj: string): Promise<void> {
+        await prismaClient.companyData.delete({
+            where:{
+                cnpj
+            }
+        })
+        
+    }
 }

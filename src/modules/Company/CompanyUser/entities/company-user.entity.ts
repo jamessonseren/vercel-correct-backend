@@ -1,12 +1,17 @@
 import { randomUUID } from 'crypto'
 import { CustomError } from '../../../../errors/custom.error'
 import { PasswordBcrypt } from '../../../../crypto/password.bcrypt'
+import { UserRoles } from '@prisma/client'
+import { Permissions } from '@prisma/client'
 
 export type CompanyUserProps = {
-    email: string,
+    email: string | null,
     cnpj: string,
+    cpf: string | null,
     user_name: string,
-    permissions: string[],
+    user_code: string,
+    roles: UserRoles[],
+    permissions: Permissions[],
     client_admin: boolean,
     password: string,
     fullName: string | null,
@@ -17,8 +22,11 @@ export class CompanyUserEntity{
     id: string
     email: string | null
     cnpj: string
-    permissions: string[]
+    cpf: string | null
+    roles: UserRoles[]
+    permissions: Permissions[]
     user_name: string
+    user_code: string
     client_admin: boolean
     password: string
     fullName: string | null
@@ -28,7 +36,10 @@ export class CompanyUserEntity{
         this.id = randomUUID()
         this.email = props.email
         this.cnpj = props.cnpj
+        this.cpf = props.cpf
+        this.roles = props.roles
         this.permissions = props.permissions
+        this.user_code = props.user_code
         this.user_name = props.user_name
         this.password = props.password
         this.fullName = props.fullName
@@ -37,12 +48,10 @@ export class CompanyUserEntity{
     }
 
     static async create(data: CompanyUserProps){
-        if(!data.email) throw new CustomError("Email is required", 400)
-        if(!data.cnpj) throw new CustomError("CNPJ is required", 400)
-        if(!data.password) throw new CustomError("Password is required", 400)
-        if(!data.fullName) throw new CustomError("Name is required", 400)
-        if(!data.function) throw new CustomError("Function is required", 400)
-        if(!data.user_name) throw new CustomError("Username is required", 400)
+        if(!data.cnpj) throw new CustomError("CNPJ is required", 403)
+        if(!data.password) throw new CustomError("Password is required", 403)
+        if(!data.user_name) throw new CustomError("Username is required", 403)
+        
 
         const bcrypt = new PasswordBcrypt()
         const passwordHash = await bcrypt.hash(data.password)

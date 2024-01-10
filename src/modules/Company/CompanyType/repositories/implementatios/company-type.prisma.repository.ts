@@ -1,10 +1,12 @@
+import { CompanyTypeOptions } from "@prisma/client";
 import { prismaClient } from "../../../../../infra/databases/prisma.config";
 import { CompanyTypeEntity } from "../../entities/company-type.entity";
 import { ICompanyTypeRepository } from "../company-type.repository";
 
 export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
    
-    async findByCompanyAdminId(companyUserId: string): Promise<CompanyTypeEntity | null> {
+
+    async findByCompanyUserId(companyUserId: string): Promise<CompanyTypeEntity | null> {
         return await prismaClient.companyType.findFirst({
             where:{
                 company_user_id: companyUserId
@@ -41,6 +43,25 @@ export class CompanyTypePrismaRepository implements ICompanyTypeRepository{
 
     async findByCNPJ(cnpj: string): Promise<CompanyTypeEntity | null>{
         return await prismaClient.companyType.findUnique({
+            where:{
+                cnpj
+            }
+        })
+    }
+
+    async updateByCorrect(cnpj: string, type: CompanyTypeOptions): Promise<CompanyTypeEntity> {
+        return await prismaClient.companyType.update({
+            where:{
+                cnpj
+            },
+            data:{
+                type: type
+            }
+        })
+    }
+
+    async deleteByCorrect(cnpj: string): Promise<void> {
+        await prismaClient.companyType.delete({
             where:{
                 cnpj
             }

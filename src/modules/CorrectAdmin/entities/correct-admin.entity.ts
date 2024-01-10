@@ -8,6 +8,7 @@ type ICorrectAdmin = {
     email: string
     userName: string
     password: string
+    permissions: string[]
 }
 
 export class CorrectAdminEntity {
@@ -16,6 +17,7 @@ export class CorrectAdminEntity {
     email: string
     userName: string
     password: string
+    permissions: string[]
 
     private constructor(props: ICorrectAdmin){
 
@@ -24,6 +26,7 @@ export class CorrectAdminEntity {
         this.email = props.email
         this.userName = props.userName
         this.password = props.password
+        this.permissions = props.permissions
         
         
     }
